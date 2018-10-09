@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Comment">
+    <id column="commentid" jdbcType="VARCHAR" property="commentid" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="customid" jdbcType="VARCHAR" property="customid" />
+    <result column="oid" jdbcType="VARCHAR" property="oid" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="notetype" jdbcType="VARCHAR" property="notetype" />
+    <result column="replytype" jdbcType="VARCHAR" property="replytype" />
+    <result column="useremail" jdbcType="VARCHAR" property="useremail" />
+    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="commentdate" jdbcType="VARCHAR" property="commentdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    commentid, pid, customid, oid, level, notetype, replytype, useremail, subject, comment, 
+    status, commentdate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where commentid = #{commentid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from comment
+    where commentid = #{commentid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Comment">
+    insert into comment (commentid, pid, customid, 
+      oid, level, notetype, 
+      replytype, useremail, subject, 
+      comment, status, commentdate
+      )
+    values (#{commentid,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{customid,jdbcType=VARCHAR}, 
+      #{oid,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{notetype,jdbcType=VARCHAR}, 
+      #{replytype,jdbcType=VARCHAR}, #{useremail,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
+      #{comment,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{commentdate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentid != null">
+        commentid,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="customid != null">
+        customid,
+      </if>
+      <if test="oid != null">
+        oid,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="notetype != null">
+        notetype,
+      </if>
+      <if test="replytype != null">
+        replytype,
+      </if>
+      <if test="useremail != null">
+        useremail,
+      </if>
+      <if test="subject != null">
+        subject,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="commentdate != null">
+        commentdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentid != null">
+        #{commentid,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="customid != null">
+        #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null">
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="notetype != null">
+        #{notetype,jdbcType=VARCHAR},
+      </if>
+      <if test="replytype != null">
+        #{replytype,jdbcType=VARCHAR},
+      </if>
+      <if test="useremail != null">
+        #{useremail,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="commentdate != null">
+        #{commentdate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Comment">
+    update comment
+    <set>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="customid != null">
+        customid = #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null">
+        oid = #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="notetype != null">
+        notetype = #{notetype,jdbcType=VARCHAR},
+      </if>
+      <if test="replytype != null">
+        replytype = #{replytype,jdbcType=VARCHAR},
+      </if>
+      <if test="useremail != null">
+        useremail = #{useremail,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        subject = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="commentdate != null">
+        commentdate = #{commentdate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where commentid = #{commentid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Comment">
+    update comment
+    set pid = #{pid,jdbcType=VARCHAR},
+      customid = #{customid,jdbcType=VARCHAR},
+      oid = #{oid,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      notetype = #{notetype,jdbcType=VARCHAR},
+      replytype = #{replytype,jdbcType=VARCHAR},
+      useremail = #{useremail,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      commentdate = #{commentdate,jdbcType=VARCHAR}
+    where commentid = #{commentid,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from comment
+	</select>
+	
+	
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from comment
+		limit #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from comment
+	</select>
+	
+	
+	
+	<delete id="deleteAll">
+		delete from comment
+	</delete>
+</mapper>

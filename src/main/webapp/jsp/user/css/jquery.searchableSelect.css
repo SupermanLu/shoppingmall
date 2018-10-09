@@ -1,0 +1,266 @@
+/*
+Author: David Qin
+E-mail: david@hereapp.cn
+Date: 2014-11-05
+*/
+
+.searchable-select-hide {
+  display: none;
+}
+
+.searchable-select {
+  display: inline-block;
+  min-width:100%;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #555;
+  vertical-align: middle;
+  position: relative;
+  outline: none;
+}
+.edi_act .searchable-select {
+  min-width:240px;
+}
+.searchable-select-holder{
+  padding: 6px 14px;
+  background-color: #f7f7f7;
+  background-image: none;
+  border: 1px solid #ddd;
+  min-height:38px;
+  line-height:36px;
+  color:#999;
+  box-sizing: border-box;
+  -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.edi_act .searchable-select-holder {
+    min-height:26px;
+    line-height:24px;
+}
+.searchable-select-caret {
+  position: absolute;
+  display:block;
+  width: 15px;
+  height: 9px;
+  top:5px;
+  bottom: 0;
+  margin: auto;
+  right: 10px;
+  background:url(../images/down3.png) no-repeat center center;
+}
+
+.searchable-select-dropdown {
+  z-index:2;
+  position: absolute;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  padding: 4px;
+  border-top: none;
+  top: 38px;
+  left: 0;
+  right: 0;
+}
+
+.searchable-select-input {
+  display:none;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  padding: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.searchable-scroll {
+  margin-top: 4px;
+  position: relative;
+}
+
+.searchable-scroll.has-privious {
+  padding-top: 16px;
+}
+
+.searchable-scroll.has-next {
+  padding-bottom: 16px;
+}
+
+.searchable-has-privious {
+  top: 0;
+}
+
+.searchable-has-next {
+  bottom: 0;
+}
+
+.searchable-has-privious, .searchable-has-next {
+  height: 16px;
+  left: 0;
+  right: 0;
+  position: absolute;
+  text-align: center;
+  z-index: 10;
+  background-color: white;
+  line-height: 8px;
+  cursor: pointer;
+}
+
+.searchable-select-items {
+  max-height: 400px;
+  overflow-y: scroll;
+  position: relative;
+}
+
+.searchable-select-items::-webkit-scrollbar {
+  display: none;
+}
+
+.searchable-select-item {
+  padding: 10px;
+  cursor: pointer;
+  min-height: 30px;
+  box-sizing: border-box;
+    transition: all 1s ease 0s;
+}
+
+.searchable-select-item.hover {
+
+  background: #555;
+  color: white;
+}
+
+.searchable-select-item.selected {
+  background: #489e7b;
+  color: white;
+}
+
+.edi_second .searchable-select-hide {
+  display: none;
+}
+
+.edi_second .searchable-select {
+  display: inline-block;
+  min-width:210px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #555;
+  vertical-align: middle;
+  position: relative;
+  outline: none;
+}
+
+.edi_second .searchable-select-holder{
+  padding: 6px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius:3px;
+  min-height:24px;
+  line-height:22px;
+  color:#999;
+  box-sizing: border-box;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+  -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.edi_second .searchable-select-caret {
+  position: absolute;
+  width: 0;
+  height: 0;
+  box-sizing: border-box;
+  border-color: black transparent transparent transparent;
+  top:5px;
+  bottom: 0;
+  border-style: solid;
+  border-width: 5px;
+  margin: auto;
+  right: 10px;
+}
+
+.edi_second .searchable-select-dropdown {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-bottom-left-radius:3px;
+  border-bottom-right-radius:3px;
+  padding: 4px;
+  border-top: none;
+  top: 28px;
+  left: 0;
+  right: 0;
+}
+
+.edi_second .searchable-select-input {
+  display:none;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  padding: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.edi_second .searchable-scroll {
+  margin-top: 4px;
+  position: relative;
+}
+
+.edi_second .searchable-scroll.has-privious {
+  padding-top: 16px;
+}
+
+.edi_second .searchable-scroll.has-next {
+  padding-bottom: 16px;
+}
+
+.edi_second .searchable-has-privious {
+  top: 0;
+}
+
+.edi_second .searchable-has-next {
+  bottom: 0;
+}
+
+.edi_second .searchable-has-privious, .searchable-has-next {
+  height: 16px;
+  left: 0;
+  right: 0;
+  position: absolute;
+  text-align: center;
+  z-index: 10;
+  background-color: white;
+  line-height: 8px;
+  cursor: pointer;
+}
+
+.edi_second .searchable-select-items {
+  max-height: 400px;
+  overflow-y: scroll;
+  position: relative;
+}
+
+.edi_second .searchable-select-items::-webkit-scrollbar {
+  display: none;
+}
+
+.edi_second .searchable-select-item {
+  padding: 5px 5px;
+  cursor: pointer;
+  min-height: 30px;
+  box-sizing: border-box;
+    transition: all 1s ease 0s;
+}
+
+.edi_second .searchable-select-item.hover {
+
+  background: #555;
+  color: white;
+}
+
+.edi_second .searchable-select-item.selected {
+  background: #4285f4;
+  color: white;
+}

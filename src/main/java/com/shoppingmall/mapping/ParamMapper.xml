@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.ParamMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Param">
+    <id column="paramid" jdbcType="VARCHAR" property="paramid" />
+    <result column="paramname" jdbcType="VARCHAR" property="paramname" />
+    <result column="paramvalue" jdbcType="VARCHAR" property="paramvalue" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    paramid, paramname, paramvalue, desc
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from param
+    where paramid = #{paramid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from param
+    where paramid = #{paramid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Param">
+    insert into param (paramid, paramname, paramvalue, 
+      desc)
+    values (#{paramid,jdbcType=VARCHAR}, #{paramname,jdbcType=VARCHAR}, #{paramvalue,jdbcType=VARCHAR}, 
+      #{desc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Param">
+    insert into param
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paramid != null">
+        paramid,
+      </if>
+      <if test="paramname != null">
+        paramname,
+      </if>
+      <if test="paramvalue != null">
+        paramvalue,
+      </if>
+      <if test="desc != null">
+        desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paramid != null">
+        #{paramid,jdbcType=VARCHAR},
+      </if>
+      <if test="paramname != null">
+        #{paramname,jdbcType=VARCHAR},
+      </if>
+      <if test="paramvalue != null">
+        #{paramvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Param">
+    update param
+    <set>
+      <if test="paramname != null">
+        paramname = #{paramname,jdbcType=VARCHAR},
+      </if>
+      <if test="paramvalue != null">
+        paramvalue = #{paramvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        desc = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where paramid = #{paramid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Param">
+    update param
+    set paramname = #{paramname,jdbcType=VARCHAR},
+      paramvalue = #{paramvalue,jdbcType=VARCHAR},
+      desc = #{desc,jdbcType=VARCHAR}
+    where paramid = #{paramid,jdbcType=VARCHAR}
+  </update>
+</mapper>

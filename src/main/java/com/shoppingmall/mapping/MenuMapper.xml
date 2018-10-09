@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Menu">
+    <id column="menuid" jdbcType="VARCHAR" property="menuid" />
+    <result column="menuname" jdbcType="VARCHAR" property="menuname" />
+    <result column="menubs" jdbcType="VARCHAR" property="menubs" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="ordernum" jdbcType="INTEGER" property="ordernum" />
+    <result column="parentmenuid" jdbcType="VARCHAR" property="parentmenuid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    menuid, menuname, menubs, description, ordernum, parentmenuid
+  </sql>
+  
+  <sql id="Base_Column_List1">
+    a.menuid, a.menuname, a.menubs, a.description, a.ordernum, a.parentmenuid,b.menuname as parentmenuname
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List1" />
+    from menu a left join menu b on a.parentmenuid=b.menuid
+    where a.menuid = #{menuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from menu
+    where menuid = #{menuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Menu">
+    insert into menu (menuid, menuname, menubs, 
+      description, ordernum, parentmenuid
+      )
+    values (#{menuid,jdbcType=VARCHAR}, #{menuname,jdbcType=VARCHAR}, #{menubs,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{ordernum,jdbcType=INTEGER}, #{parentmenuid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Menu">
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuid != null">
+        menuid,
+      </if>
+      <if test="menuname != null">
+        menuname,
+      </if>
+      <if test="menubs != null">
+        menubs,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="ordernum != null">
+        ordernum,
+      </if>
+      <if test="parentmenuid != null">
+        parentmenuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuid != null">
+        #{menuid,jdbcType=VARCHAR},
+      </if>
+      <if test="menuname != null">
+        #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menubs != null">
+        #{menubs,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernum != null">
+        #{ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="parentmenuid != null">
+        #{parentmenuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Menu">
+    update menu
+    <set>
+      <if test="menuname != null">
+        menuname = #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menubs != null">
+        menubs = #{menubs,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernum != null">
+        ordernum = #{ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="parentmenuid != null">
+        parentmenuid = #{parentmenuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menuid = #{menuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Menu">
+    update menu
+    set menuname = #{menuname,jdbcType=VARCHAR},
+      menubs = #{menubs,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      ordernum = #{ordernum,jdbcType=INTEGER},
+      parentmenuid = #{parentmenuid,jdbcType=VARCHAR}
+    where menuid = #{menuid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+    	from menu a left join menu b on a.parentmenuid=b.menuid
+		order by ordernum desc
+	</select>
+	
+	
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+   		from menu a left join menu b on a.parentmenuid=b.menuid
+		where a.menuname like binary '%${search}%' or a.menubs like binary '%${search}%' or a.description like binary '%${search}%'
+		order by ordernum desc
+		limit #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+    	from menu a left join menu b on a.parentmenuid=b.menuid
+		where a.menuname like binary '%${search}%' or a.menubs like binary '%${search}%' or a.description like binary '%${search}%'
+		order by ordernum desc
+	</select>
+	
+	
+	<select id="selectOption" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from menu
+		where parentmenuid=#{parentmenuid,jdbcType=VARCHAR}
+		order by ordernum desc
+	</select>
+	
+	
+	<select id="selectOptionIn" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from menu
+		where parentmenuid=#{parentmenuid,jdbcType=VARCHAR} and 
+		menuid IN
+	    <foreach collection="menulist" item="menuid" index="index"
+	             open="(" close=")" separator=",">
+	      #{menuid}
+	    </foreach>
+		order by ordernum desc
+	</select>
+	
+	<delete id="deleteAll">
+		delete from menu
+	</delete>
+</mapper>

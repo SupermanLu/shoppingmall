@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.NoteMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Note">
+    <id column="noteid" jdbcType="VARCHAR" property="noteid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="istop" jdbcType="VARCHAR" property="istop" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    noteid, title, content, istop
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from note
+    where noteid = #{noteid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from note
+    where noteid = #{noteid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Note">
+    insert into note (noteid, title, content, 
+      istop)
+    values (#{noteid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{istop,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Note">
+    insert into note
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noteid != null">
+        noteid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="istop != null">
+        istop,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noteid != null">
+        #{noteid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="istop != null">
+        #{istop,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Note">
+    update note
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="istop != null">
+        istop = #{istop,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where noteid = #{noteid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Note">
+    update note
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      istop = #{istop,jdbcType=VARCHAR}
+    where noteid = #{noteid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from note
+		order by istop desc
+	</select>
+	
+	
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from note
+		where title like binary '%${search}%' or content like binary '%${search}%'
+		order by istop desc
+		limit #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from note
+		where title like binary '%${search}%' or content like binary '%${search}%'
+		order by istop desc
+	</select>
+	
+	<delete id="deleteAll">
+		delete from note
+	</delete>
+</mapper>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.SwipMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Swip">
+    <id column="swipid" jdbcType="VARCHAR" property="swipid" />
+    <result column="swiplink" jdbcType="VARCHAR" property="swiplink" />
+    <result column="swipimgurl" jdbcType="VARCHAR" property="swipimgurl" />
+    <result column="ordernum" jdbcType="INTEGER" property="ordernum" />
+    <result column="addtime" jdbcType="VARCHAR" property="addtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    swipid, swiplink, swipimgurl, ordernum, addtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from swip
+    where swipid = #{swipid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from swip
+    where swipid = #{swipid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Swip">
+    insert into swip (swipid, swiplink, swipimgurl, 
+      ordernum, addtime)
+    values (#{swipid,jdbcType=VARCHAR}, #{swiplink,jdbcType=VARCHAR}, #{swipimgurl,jdbcType=VARCHAR}, 
+      #{ordernum,jdbcType=INTEGER}, #{addtime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Swip">
+    insert into swip
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="swipid != null">
+        swipid,
+      </if>
+      <if test="swiplink != null">
+        swiplink,
+      </if>
+      <if test="swipimgurl != null">
+        swipimgurl,
+      </if>
+      <if test="ordernum != null">
+        ordernum,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="swipid != null">
+        #{swipid,jdbcType=VARCHAR},
+      </if>
+      <if test="swiplink != null">
+        #{swiplink,jdbcType=VARCHAR},
+      </if>
+      <if test="swipimgurl != null">
+        #{swipimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernum != null">
+        #{ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Swip">
+    update swip
+    <set>
+      <if test="swiplink != null">
+        swiplink = #{swiplink,jdbcType=VARCHAR},
+      </if>
+      <if test="swipimgurl != null">
+        swipimgurl = #{swipimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernum != null">
+        ordernum = #{ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where swipid = #{swipid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Swip">
+    update swip
+    set swiplink = #{swiplink,jdbcType=VARCHAR},
+      swipimgurl = #{swipimgurl,jdbcType=VARCHAR},
+      ordernum = #{ordernum,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=VARCHAR}
+    where swipid = #{swipid,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from swip
+		order by ordernum desc
+	</select>
+	
+	
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from swip
+		where swiplink like binary '%${search}%'
+		order by ordernum desc
+		limit #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from swip
+		where swiplink like binary '%${search}%'
+		order by ordernum desc
+	</select>
+	
+	
+	
+	<delete id="deleteAll">
+		delete from swip
+	</delete>
+</mapper>

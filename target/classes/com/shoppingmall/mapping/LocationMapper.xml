@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.LocationMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Location">
+    <id column="locationid" jdbcType="VARCHAR" property="locationid" />
+    <result column="locationno" jdbcType="VARCHAR" property="locationno" />
+    <result column="locationname" jdbcType="VARCHAR" property="locationname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    locationid, locationno, locationname
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from location
+    where locationid = #{locationid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from location
+    where locationid = #{locationid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Location">
+    insert into location (locationid, locationno, locationname
+      )
+    values (#{locationid,jdbcType=VARCHAR}, #{locationno,jdbcType=VARCHAR}, #{locationname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Location">
+    insert into location
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="locationid != null">
+        locationid,
+      </if>
+      <if test="locationno != null">
+        locationno,
+      </if>
+      <if test="locationname != null">
+        locationname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="locationid != null">
+        #{locationid,jdbcType=VARCHAR},
+      </if>
+      <if test="locationno != null">
+        #{locationno,jdbcType=VARCHAR},
+      </if>
+      <if test="locationname != null">
+        #{locationname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Location">
+    update location
+    <set>
+      <if test="locationno != null">
+        locationno = #{locationno,jdbcType=VARCHAR},
+      </if>
+      <if test="locationname != null">
+        locationname = #{locationname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where locationid = #{locationid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Location">
+    update location
+    set locationno = #{locationno,jdbcType=VARCHAR},
+      locationname = #{locationname,jdbcType=VARCHAR}
+    where locationid = #{locationid,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from location
+	</select>
+	
+	
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from location
+		where locationname like binary '%${search}%' or locationno like binary '%${search}%'
+		order by locationno
+		limit #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from location
+		where locationname like binary '%${search}%' or locationno like binary '%${search}%'
+		order by locationno
+	</select>
+	
+	<delete id="deleteAll">
+		delete from location
+	</delete>
+</mapper>

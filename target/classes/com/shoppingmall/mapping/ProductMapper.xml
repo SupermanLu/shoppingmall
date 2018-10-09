@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.ProductMapper">
+	<resultMap id="BaseResultMap"
+		type="com.shoppingmall.model.Product">
+		<id column="productid" jdbcType="VARCHAR" property="productid" />
+		<result column="pno" jdbcType="INTEGER" property="pno" />
+		<result column="pname" jdbcType="VARCHAR" property="pname" />
+		<result column="cid" jdbcType="VARCHAR" property="cid" />
+		<result column="issj" jdbcType="VARCHAR" property="issj" />
+		<result column="istj" jdbcType="VARCHAR" property="istj" />
+		<result column="isjptj" jdbcType="VARCHAR" property="isjptj" />
+		<result column="isrxjp" jdbcType="VARCHAR" property="isrxjp" />
+		<result column="isrm" jdbcType="VARCHAR" property="isrm" />
+		<result column="isxp" jdbcType="VARCHAR" property="isxp" />
+		<result column="isqg" jdbcType="VARCHAR" property="isqg" />
+		<result column="isdlsy" jdbcType="VARCHAR" property="isdlsy" />
+		<result column="istg" jdbcType="VARCHAR" property="istg" />
+		<result column="qgstarttime" jdbcType="VARCHAR"
+			property="qgstarttime" />
+		<result column="qgendtime" jdbcType="VARCHAR"
+			property="qgendtime" />
+		<result column="tgstarttime" jdbcType="VARCHAR"
+			property="tgstarttime" />
+		<result column="tgendtime" jdbcType="VARCHAR"
+			property="tgendtime" />
+		<result column="originalprice" jdbcType="DECIMAL"
+			property="originalprice" />
+		<result column="discountedprice" jdbcType="DECIMAL"
+			property="discountedprice" />
+		<result column="postage" jdbcType="DECIMAL" property="postage" />
+		<result column="stock" jdbcType="INTEGER" property="stock" />
+		<result column="logourl" jdbcType="VARCHAR" property="logourl" />
+		<result column="sales" jdbcType="INTEGER" property="sales" />
+		<result column="ordernum" jdbcType="INTEGER"
+			property="ordernum" />
+		<result column="updatetime" jdbcType="VARCHAR"
+			property="updatetime" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.shoppingmall.model.ProductWithBLOBs">
+		<result column="pimgurl" jdbcType="LONGVARCHAR"
+			property="pimgurl" />
+		<result column="descption" jdbcType="LONGVARCHAR" property="descption" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		productid, pno, pname, cid, issj, istj, isjptj, isrxjp, isrm, isxp, isqg,
+		isdlsy,
+		istg, qgstarttime, qgendtime, tgstarttime, tgendtime, originalprice,
+		discountedprice,
+		postage, stock, logourl, sales, ordernum, updatetime
+	</sql>
+	<sql id="Blob_Column_List">
+		pimgurl, descption
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where productid = #{productid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from product
+		where productid = #{productid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.shoppingmall.model.ProductWithBLOBs">
+		insert into product (productid, pno, pname,
+		cid, issj, istj, isjptj,
+		isrxjp, isrm, isxp,
+		isqg, isdlsy, istg,
+		qgstarttime, qgendtime, tgstarttime,
+		tgendtime, originalprice, discountedprice,
+		postage, stock, logourl,
+		sales, ordernum, updatetime,
+		pimgurl, descption)
+		values (#{productid,jdbcType=VARCHAR}, #{pno,jdbcType=INTEGER},
+		#{pname,jdbcType=VARCHAR},
+		#{cid,jdbcType=VARCHAR}, #{issj,jdbcType=VARCHAR}, #{istj,jdbcType=VARCHAR},
+		#{isjptj,jdbcType=VARCHAR},
+		#{isrxjp,jdbcType=VARCHAR}, #{isrm,jdbcType=VARCHAR}, #{isxp,jdbcType=VARCHAR},
+		#{isqg,jdbcType=VARCHAR}, #{isdlsy,jdbcType=VARCHAR},
+		#{istg,jdbcType=VARCHAR},
+		#{qgstarttime,jdbcType=VARCHAR}, #{qgendtime,jdbcType=VARCHAR}, #{tgstarttime,jdbcType=VARCHAR},
+		#{tgendtime,jdbcType=VARCHAR}, #{originalprice,jdbcType=DECIMAL},
+		#{discountedprice,jdbcType=DECIMAL},
+		#{postage,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER}, #{logourl,jdbcType=VARCHAR},
+		#{sales,jdbcType=INTEGER}, #{ordernum,jdbcType=INTEGER},
+		#{updatetime,jdbcType=VARCHAR},
+		#{pimgurl,jdbcType=LONGVARCHAR}, #{descption,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shoppingmall.model.ProductWithBLOBs">
+		insert into product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="productid != null">
+				productid,
+			</if>
+			<if test="pno != null">
+				pno,
+			</if>
+			<if test="pname != null">
+				pname,
+			</if>
+			<if test="cid != null">
+				cid,
+			</if>
+			<if test="issj != null">
+				issj,
+			</if>
+			<if test="istj != null">
+				istj,
+			</if>
+			<if test="isjptj != null">
+				isjptj,
+			</if>
+			<if test="isrxjp != null">
+				isrxjp,
+			</if>
+			<if test="isrm != null">
+				isrm,
+			</if>
+			<if test="isxp != null">
+				isxp,
+			</if>
+			<if test="isqg != null">
+				isqg,
+			</if>
+			<if test="isdlsy != null">
+				isdlsy,
+			</if>
+			<if test="istg != null">
+				istg,
+			</if>
+			<if test="qgstarttime != null">
+				qgstarttime,
+			</if>
+			<if test="qgendtime != null">
+				qgendtime,
+			</if>
+			<if test="tgstarttime != null">
+				tgstarttime,
+			</if>
+			<if test="tgendtime != null">
+				tgendtime,
+			</if>
+			<if test="originalprice != null">
+				originalprice,
+			</if>
+			<if test="discountedprice != null">
+				discountedprice,
+			</if>
+			<if test="postage != null">
+				postage,
+			</if>
+			<if test="stock != null">
+				stock,
+			</if>
+			<if test="logourl != null">
+				logourl,
+			</if>
+			<if test="sales != null">
+				sales,
+			</if>
+			<if test="ordernum != null">
+				ordernum,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+			<if test="pimgurl != null">
+				pimgurl,
+			</if>
+			<if test="descption != null">
+				descption,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="productid != null">
+				#{productid,jdbcType=VARCHAR},
+			</if>
+			<if test="pno != null">
+				#{pno,jdbcType=INTEGER},
+			</if>
+			<if test="pname != null">
+				#{pname,jdbcType=VARCHAR},
+			</if>
+			<if test="cid != null">
+				#{cid,jdbcType=VARCHAR},
+			</if>
+			<if test="issj != null">
+				#{issj,jdbcType=VARCHAR},
+			</if>
+			<if test="istj != null">
+				#{istj,jdbcType=VARCHAR},
+			</if>
+			<if test="isjptj != null">
+				#{isjptj,jdbcType=VARCHAR},
+			</if>
+			<if test="isrxjp != null">
+				#{isrxjp,jdbcType=VARCHAR},
+			</if>
+			<if test="isrm != null">
+				#{isrm,jdbcType=VARCHAR},
+			</if>
+			<if test="isxp != null">
+				#{isxp,jdbcType=VARCHAR},
+			</if>
+			<if test="isqg != null">
+				#{isqg,jdbcType=VARCHAR},
+			</if>
+			<if test="isdlsy != null">
+				#{isdlsy,jdbcType=VARCHAR},
+			</if>
+			<if test="istg != null">
+				#{istg,jdbcType=VARCHAR},
+			</if>
+			<if test="qgstarttime != null">
+				#{qgstarttime,jdbcType=VARCHAR},
+			</if>
+			<if test="qgendtime != null">
+				#{qgendtime,jdbcType=VARCHAR},
+			</if>
+			<if test="tgstarttime != null">
+				#{tgstarttime,jdbcType=VARCHAR},
+			</if>
+			<if test="tgendtime != null">
+				#{tgendtime,jdbcType=VARCHAR},
+			</if>
+			<if test="originalprice != null">
+				#{originalprice,jdbcType=DECIMAL},
+			</if>
+			<if test="discountedprice != null">
+				#{discountedprice,jdbcType=DECIMAL},
+			</if>
+			<if test="postage != null">
+				#{postage,jdbcType=DECIMAL},
+			</if>
+			<if test="stock != null">
+				#{stock,jdbcType=INTEGER},
+			</if>
+			<if test="logourl != null">
+				#{logourl,jdbcType=VARCHAR},
+			</if>
+			<if test="sales != null">
+				#{sales,jdbcType=INTEGER},
+			</if>
+			<if test="ordernum != null">
+				#{ordernum,jdbcType=INTEGER},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=VARCHAR},
+			</if>
+			<if test="pimgurl != null">
+				#{pimgurl,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="descption != null">
+				#{descption,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shoppingmall.model.ProductWithBLOBs">
+		update product
+		<set>
+			<if test="pno != null">
+				pno = #{pno,jdbcType=INTEGER},
+			</if>
+			<if test="pname != null">
+				pname = #{pname,jdbcType=VARCHAR},
+			</if>
+			<if test="cid != null">
+				cid = #{cid,jdbcType=VARCHAR},
+			</if>
+			<if test="issj != null">
+				issj = #{issj,jdbcType=VARCHAR},
+			</if>
+			<if test="istj != null">
+				istj = #{istj,jdbcType=VARCHAR},
+			</if>
+			<if test="isjptj != null">
+				isjptj = #{isjptj,jdbcType=VARCHAR},
+			</if>
+			<if test="isrxjp != null">
+				isrxjp = #{isrxjp,jdbcType=VARCHAR},
+			</if>
+			<if test="isrm != null">
+				isrm = #{isrm,jdbcType=VARCHAR},
+			</if>
+			<if test="isxp != null">
+				isxp = #{isxp,jdbcType=VARCHAR},
+			</if>
+			<if test="isqg != null">
+				isqg = #{isqg,jdbcType=VARCHAR},
+			</if>
+			<if test="isdlsy != null">
+				isdlsy = #{isdlsy,jdbcType=VARCHAR},
+			</if>
+			<if test="istg != null">
+				istg = #{istg,jdbcType=VARCHAR},
+			</if>
+			<if test="qgstarttime != null">
+				qgstarttime = #{qgstarttime,jdbcType=VARCHAR},
+			</if>
+			<if test="qgendtime != null">
+				qgendtime = #{qgendtime,jdbcType=VARCHAR},
+			</if>
+			<if test="tgstarttime != null">
+				tgstarttime = #{tgstarttime,jdbcType=VARCHAR},
+			</if>
+			<if test="tgendtime != null">
+				tgendtime = #{tgendtime,jdbcType=VARCHAR},
+			</if>
+			<if test="originalprice != null">
+				originalprice = #{originalprice,jdbcType=DECIMAL},
+			</if>
+			<if test="discountedprice != null">
+				discountedprice = #{discountedprice,jdbcType=DECIMAL},
+			</if>
+			<if test="postage != null">
+				postage = #{postage,jdbcType=DECIMAL},
+			</if>
+			<if test="stock != null">
+				stock = #{stock,jdbcType=INTEGER},
+			</if>
+			<if test="logourl != null">
+				logourl = #{logourl,jdbcType=VARCHAR},
+			</if>
+			<if test="sales != null">
+				sales = #{sales,jdbcType=INTEGER},
+			</if>
+			<if test="ordernum != null">
+				ordernum = #{ordernum,jdbcType=INTEGER},
+			</if>
+			<if test="updatetime != null">
+				updatetime = #{updatetime,jdbcType=VARCHAR},
+			</if>
+			<if test="pimgurl != null">
+				pimgurl = #{pimgurl,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="descption != null">
+				descption = #{descption,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where productid = #{productid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.shoppingmall.model.ProductWithBLOBs">
+		update product
+		set pno = #{pno,jdbcType=INTEGER},
+		pname = #{pname,jdbcType=VARCHAR},
+		cid = #{cid,jdbcType=VARCHAR},
+		issj = #{issj,jdbcType=VARCHAR},
+		istj = #{istj,jdbcType=VARCHAR},
+		isjptj = #{isjptj,jdbcType=VARCHAR},
+		isrxjp = #{isrxjp,jdbcType=VARCHAR},
+		isrm = #{isrm,jdbcType=VARCHAR},
+		isxp = #{isxp,jdbcType=VARCHAR},
+		isqg = #{isqg,jdbcType=VARCHAR},
+		isdlsy = #{isdlsy,jdbcType=VARCHAR},
+		istg = #{istg,jdbcType=VARCHAR},
+		qgstarttime = #{qgstarttime,jdbcType=VARCHAR},
+		qgendtime = #{qgendtime,jdbcType=VARCHAR},
+		tgstarttime = #{tgstarttime,jdbcType=VARCHAR},
+		tgendtime = #{tgendtime,jdbcType=VARCHAR},
+		originalprice = #{originalprice,jdbcType=DECIMAL},
+		discountedprice = #{discountedprice,jdbcType=DECIMAL},
+		postage = #{postage,jdbcType=DECIMAL},
+		stock = #{stock,jdbcType=INTEGER},
+		logourl = #{logourl,jdbcType=VARCHAR},
+		sales = #{sales,jdbcType=INTEGER},
+		ordernum = #{ordernum,jdbcType=INTEGER},
+		updatetime = #{updatetime,jdbcType=VARCHAR},
+		pimgurl = #{pimgurl,jdbcType=LONGVARCHAR},
+		descption = #{descption,jdbcType=LONGVARCHAR}
+		where productid = #{productid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shoppingmall.model.Product">
+		update product
+		set pno = #{pno,jdbcType=INTEGER},
+		pname = #{pname,jdbcType=VARCHAR},
+		cid = #{cid,jdbcType=VARCHAR},
+		issj = #{issj,jdbcType=VARCHAR},
+		istj = #{istj,jdbcType=VARCHAR},
+		isjptj = #{isjptj,jdbcType=VARCHAR},
+		isrxjp = #{isrxjp,jdbcType=VARCHAR},
+		isrm = #{isrm,jdbcType=VARCHAR},
+		isxp = #{isxp,jdbcType=VARCHAR},
+		isqg = #{isqg,jdbcType=VARCHAR},
+		isdlsy = #{isdlsy,jdbcType=VARCHAR},
+		istg = #{istg,jdbcType=VARCHAR},
+		qgstarttime = #{qgstarttime,jdbcType=VARCHAR},
+		qgendtime = #{qgendtime,jdbcType=VARCHAR},
+		tgstarttime = #{tgstarttime,jdbcType=VARCHAR},
+		tgendtime = #{tgendtime,jdbcType=VARCHAR},
+		originalprice = #{originalprice,jdbcType=DECIMAL},
+		discountedprice = #{discountedprice,jdbcType=DECIMAL},
+		postage = #{postage,jdbcType=DECIMAL},
+		stock = #{stock,jdbcType=INTEGER},
+		logourl = #{logourl,jdbcType=VARCHAR},
+		sales = #{sales,jdbcType=INTEGER},
+		ordernum = #{ordernum,jdbcType=INTEGER},
+		updatetime = #{updatetime,jdbcType=VARCHAR}
+		where productid = #{productid,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		order by ordernum desc
+	</select>
+
+	<select id="selectpbycid" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product where cid=#{cid,jdbcType=VARCHAR} and issj='1'
+		order by ordernum desc
+	</select>
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where pname like binary '%${search}%' and pno like binary '%${search}%' and updatetime like binary '%${search}%'
+		order by
+		ordernum desc
+		limit #{limit,jdbcType=INTEGER} offset
+		#{offset,jdbcType=INTEGER}
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where pname like binary '%${search}%' and pno like binary '%${search}%' and updatetime like binary '%${search}%'
+		order by
+		ordernum desc
+	</select>
+	
+	<select id="getHot" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where isrm='1' and issj='1'
+		order by ordernum desc
+	</select>
+
+
+
+	<delete id="deleteAll">
+		delete from product
+	</delete>
+</mapper>

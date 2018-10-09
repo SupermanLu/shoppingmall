@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Order">
+    <id column="orderid" jdbcType="VARCHAR" property="orderid" />
+    <result column="orderno" jdbcType="INTEGER" property="orderno" />
+    <result column="customid" jdbcType="VARCHAR" property="customid" />
+    <result column="proid" jdbcType="VARCHAR" property="proid" />
+    <result column="pname" jdbcType="VARCHAR" property="pname" />
+    <result column="preprice" jdbcType="DECIMAL" property="preprice" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="postage" jdbcType="DECIMAL" property="postage" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="ordertime" jdbcType="VARCHAR" property="ordertime" />
+    <result column="paytime" jdbcType="VARCHAR" property="paytime" />
+    <result column="receiver" jdbcType="VARCHAR" property="receiver" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="detaillocation" jdbcType="VARCHAR" property="detaillocation" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="deliverytime" jdbcType="VARCHAR" property="deliverytime" />
+    <result column="iscomment" jdbcType="VARCHAR" property="iscomment" />
+    <result column="isread" jdbcType="VARCHAR" property="isread" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    orderid, orderno, customid, proid, pname, preprice, num, postage, status, ordertime, 
+    paytime, receiver, location, detaillocation, phone, deliverytime, iscomment, isread
+  </sql>
+  <sql id="Base_Column_List1">
+    a.orderid,a.orderno, a.customid,a.proid,a.pname,a.preprice,a.num, a.postage, a.status, a.ordertime, a.paytime, 
+    a.receiver, a.location, a.detaillocation, a.phone, a.deliverytime, a.iscomment, a.isread,b.customname
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List1" />
+    from orderlist a left join custom b on a.customid=b.customid
+    where a.orderid = #{orderid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from orderlist
+    where orderid = #{orderid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Order">
+    insert into orderlist (orderid, orderno, customid, 
+      proid, pname, preprice, 
+      num, postage, status, 
+      ordertime, paytime, receiver, 
+      location, detaillocation, phone, 
+      deliverytime, iscomment, isread
+      )
+    values (#{orderid,jdbcType=VARCHAR}, #{orderno,jdbcType=INTEGER}, #{customid,jdbcType=VARCHAR}, 
+      #{proid,jdbcType=VARCHAR}, #{pname,jdbcType=VARCHAR}, #{preprice,jdbcType=DECIMAL}, 
+      #{num,jdbcType=INTEGER}, #{postage,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{ordertime,jdbcType=VARCHAR}, #{paytime,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, 
+      #{location,jdbcType=VARCHAR}, #{detaillocation,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{deliverytime,jdbcType=VARCHAR}, #{iscomment,jdbcType=VARCHAR}, #{isread,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Order">
+    insert into orderlist
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderid != null">
+        orderid,
+      </if>
+      <if test="orderno != null">
+        orderno,
+      </if>
+      <if test="customid != null">
+        customid,
+      </if>
+      <if test="proid != null">
+        proid,
+      </if>
+      <if test="pname != null">
+        pname,
+      </if>
+      <if test="preprice != null">
+        preprice,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="postage != null">
+        postage,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="ordertime != null">
+        ordertime,
+      </if>
+      <if test="paytime != null">
+        paytime,
+      </if>
+      <if test="receiver != null">
+        receiver,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="detaillocation != null">
+        detaillocation,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="deliverytime != null">
+        deliverytime,
+      </if>
+      <if test="iscomment != null">
+        iscomment,
+      </if>
+      <if test="isread != null">
+        isread,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderid != null">
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=INTEGER},
+      </if>
+      <if test="customid != null">
+        #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="proid != null">
+        #{proid,jdbcType=VARCHAR},
+      </if>
+      <if test="pname != null">
+        #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="preprice != null">
+        #{preprice,jdbcType=DECIMAL},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="postage != null">
+        #{postage,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null">
+        #{ordertime,jdbcType=VARCHAR},
+      </if>
+      <if test="paytime != null">
+        #{paytime,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="detaillocation != null">
+        #{detaillocation,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverytime != null">
+        #{deliverytime,jdbcType=VARCHAR},
+      </if>
+      <if test="iscomment != null">
+        #{iscomment,jdbcType=VARCHAR},
+      </if>
+      <if test="isread != null">
+        #{isread,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Order">
+    update orderlist
+    <set>
+      <if test="orderno != null">
+        orderno = #{orderno,jdbcType=INTEGER},
+      </if>
+      <if test="customid != null">
+        customid = #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="proid != null">
+        proid = #{proid,jdbcType=VARCHAR},
+      </if>
+      <if test="pname != null">
+        pname = #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="preprice != null">
+        preprice = #{preprice,jdbcType=DECIMAL},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="postage != null">
+        postage = #{postage,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null">
+        ordertime = #{ordertime,jdbcType=VARCHAR},
+      </if>
+      <if test="paytime != null">
+        paytime = #{paytime,jdbcType=VARCHAR},
+      </if>
+      <if test="receiver != null">
+        receiver = #{receiver,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="detaillocation != null">
+        detaillocation = #{detaillocation,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverytime != null">
+        deliverytime = #{deliverytime,jdbcType=VARCHAR},
+      </if>
+      <if test="iscomment != null">
+        iscomment = #{iscomment,jdbcType=VARCHAR},
+      </if>
+      <if test="isread != null">
+        isread = #{isread,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where orderid = #{orderid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Order">
+    update orderlist
+    set orderno = #{orderno,jdbcType=INTEGER},
+      customid = #{customid,jdbcType=VARCHAR},
+      proid = #{proid,jdbcType=VARCHAR},
+      pname = #{pname,jdbcType=VARCHAR},
+      preprice = #{preprice,jdbcType=DECIMAL},
+      num = #{num,jdbcType=INTEGER},
+      postage = #{postage,jdbcType=DECIMAL},
+      status = #{status,jdbcType=VARCHAR},
+      ordertime = #{ordertime,jdbcType=VARCHAR},
+      paytime = #{paytime,jdbcType=VARCHAR},
+      receiver = #{receiver,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      detaillocation = #{detaillocation,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      deliverytime = #{deliverytime,jdbcType=VARCHAR},
+      iscomment = #{iscomment,jdbcType=VARCHAR},
+      isread = #{isread,jdbcType=VARCHAR}
+    where orderid = #{orderid,jdbcType=VARCHAR}
+  </update>
+ 
+  
+    <select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from orderlist
+		order by orderno desc
+	</select>
+	
+	
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		from orderlist a left join custom b on a.customid=b.customid
+		where b.customname like binary '%${search}%' and a.orderno like binary '%${search}%' and a.paytime like binary '%${search}%'
+		order by a.orderno desc
+		limit #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}		
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		from orderlist a left join custom b on a.customid=b.customid
+		where b.customname like binary '%${search}%' and a.orderno like binary '%${search}%' and a.paytime like binary '%${search}%'
+		order by a.orderno desc
+	</select>
+	
+	
+	
+	<delete id="deleteAll">
+		delete from orderlist
+	</delete>
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.CustomMapper">
+	<resultMap id="BaseResultMap"
+		type="com.shoppingmall.model.Custom">
+		<id column="customid" jdbcType="VARCHAR" property="customid" />
+		<result column="customno" jdbcType="INTEGER"
+			property="customno" />
+		<result column="customname" jdbcType="VARCHAR"
+			property="customname" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="truename" jdbcType="VARCHAR"
+			property="truename" />
+		<result column="bankno" jdbcType="VARCHAR" property="bankno" />
+		<result column="password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="writedate" jdbcType="VARCHAR"
+			property="writedate" />
+		<result column="score" jdbcType="DECIMAL" property="score" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		customid, customno, customname, mobile, truename, bankno, password, writedate,
+		score,
+		status
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from custom
+		where customid = #{customid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from custom
+		where customid = #{customid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert"
+		parameterType="com.shoppingmall.model.Custom">
+		insert into custom (customid, customno, customname,
+		mobile, truename, bankno,
+		password, writedate, score,
+		status)
+		values (#{customid,jdbcType=VARCHAR}, #{customno,jdbcType=INTEGER},
+		#{customname,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR}, #{truename,jdbcType=VARCHAR}, #{bankno,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{writedate,jdbcType=VARCHAR},
+		#{score,jdbcType=DECIMAL},
+		#{status,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shoppingmall.model.Custom">
+		insert into custom
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="customid != null">
+				customid,
+			</if>
+			<if test="customno != null">
+				customno,
+			</if>
+			<if test="customname != null">
+				customname,
+			</if>
+			<if test="mobile != null">
+				mobile,
+			</if>
+			<if test="truename != null">
+				truename,
+			</if>
+			<if test="bankno != null">
+				bankno,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="writedate != null">
+				writedate,
+			</if>
+			<if test="score != null">
+				score,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="customid != null">
+				#{customid,jdbcType=VARCHAR},
+			</if>
+			<if test="customno != null">
+				#{customno,jdbcType=INTEGER},
+			</if>
+			<if test="customname != null">
+				#{customname,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="truename != null">
+				#{truename,jdbcType=VARCHAR},
+			</if>
+			<if test="bankno != null">
+				#{bankno,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="writedate != null">
+				#{writedate,jdbcType=VARCHAR},
+			</if>
+			<if test="score != null">
+				#{score,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shoppingmall.model.Custom">
+		update custom
+		<set>
+			<if test="customno != null">
+				customno = #{customno,jdbcType=INTEGER},
+			</if>
+			<if test="customname != null">
+				customname = #{customname,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="truename != null">
+				truename = #{truename,jdbcType=VARCHAR},
+			</if>
+			<if test="bankno != null">
+				bankno = #{bankno,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="writedate != null">
+				writedate = #{writedate,jdbcType=VARCHAR},
+			</if>
+			<if test="score != null">
+				score = #{score,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where customid = #{customid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shoppingmall.model.Custom">
+		update custom
+		set customno = #{customno,jdbcType=INTEGER},
+		customname = #{customname,jdbcType=VARCHAR},
+		mobile = #{mobile,jdbcType=VARCHAR},
+		truename = #{truename,jdbcType=VARCHAR},
+		bankno = #{bankno,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		writedate = #{writedate,jdbcType=VARCHAR},
+		score = #{score,jdbcType=DECIMAL},
+		status = #{status,jdbcType=VARCHAR}
+		where customid = #{customid,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from custom
+	</select>
+	
+	<select id="selectByCustomName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from custom
+		where customname= #{customname,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from custom
+		where customname like binary '%${search}%'
+		limit #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from custom
+		where customname like binary '%${search}%'
+	</select>
+	
+	<delete id="deleteAll">
+		delete from custom
+	</delete>
+
+</mapper>

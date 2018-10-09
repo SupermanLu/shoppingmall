@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.CategoryMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Category">
+    <id column="cateid" jdbcType="VARCHAR" property="cateid" />
+    <result column="catename" jdbcType="VARCHAR" property="catename" />
+    <result column="parentcateid" jdbcType="VARCHAR" property="parentcateid" />
+    <result column="issy" jdbcType="VARCHAR" property="issy" />
+    <result column="bannerurl" jdbcType="VARCHAR" property="bannerurl" />
+    <result column="ordernum" jdbcType="INTEGER" property="ordernum" />
+    <result column="parentcatename" jdbcType="VARCHAR" property="parentcatename" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cateid, catename, parentcateid, issy, bannerurl, ordernum
+  </sql>  
+   <sql id="Base_Column_List1">
+    a.cateid, a.catename, a.parentcateid, a.issy, a.bannerurl, a.ordernum,b.catename as parentcatename
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List1" />
+    from category a left join category b on a.parentcateid=b.cateid
+    where a.cateid = #{cateid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from category
+    where cateid = #{cateid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Category">
+    insert into category (cateid, catename, parentcateid, 
+      issy, bannerurl, ordernum
+      )
+    values (#{cateid,jdbcType=VARCHAR}, #{catename,jdbcType=VARCHAR}, #{parentcateid,jdbcType=VARCHAR}, 
+      #{issy,jdbcType=VARCHAR}, #{bannerurl,jdbcType=VARCHAR}, #{ordernum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Category">
+    insert into category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cateid != null">
+        cateid,
+      </if>
+      <if test="catename != null">
+        catename,
+      </if>
+      <if test="parentcateid != null">
+        parentcateid,
+      </if>
+      <if test="issy != null">
+        issy,
+      </if>
+      <if test="bannerurl != null">
+        bannerurl,
+      </if>
+      <if test="ordernum != null">
+        ordernum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cateid != null">
+        #{cateid,jdbcType=VARCHAR},
+      </if>
+      <if test="catename != null">
+        #{catename,jdbcType=VARCHAR},
+      </if>
+      <if test="parentcateid != null">
+        #{parentcateid,jdbcType=VARCHAR},
+      </if>
+      <if test="issy != null">
+        #{issy,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerurl != null">
+        #{bannerurl,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernum != null">
+        #{ordernum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Category">
+    update category
+    <set>
+      <if test="catename != null">
+        catename = #{catename,jdbcType=VARCHAR},
+      </if>
+      <if test="parentcateid != null">
+        parentcateid = #{parentcateid,jdbcType=VARCHAR},
+      </if>
+      <if test="issy != null">
+        issy = #{issy,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerurl != null">
+        bannerurl = #{bannerurl,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernum != null">
+        ordernum = #{ordernum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where cateid = #{cateid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Category">
+    update category
+    set catename = #{catename,jdbcType=VARCHAR},
+      parentcateid = #{parentcateid,jdbcType=VARCHAR},
+      issy = #{issy,jdbcType=VARCHAR},
+      bannerurl = #{bannerurl,jdbcType=VARCHAR},
+      ordernum = #{ordernum,jdbcType=INTEGER}
+    where cateid = #{cateid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		from category a left join category b on a.parentcateid=b.cateid
+		order by ordernum desc
+	</select>
+	
+	
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		from category a left join category b on a.parentcateid=b.cateid
+		where a.catename like binary '%${search}%'
+		order by ordernum desc
+		limit #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		from category a left join category b on a.parentcateid=b.cateid
+		where a.catename like binary '%${search}%'
+		order by ordernum desc
+	</select>
+	
+	
+	<select id="selectOption" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from category
+		where parentcateid=#{parentcateid,jdbcType=VARCHAR}
+		order by ordernum desc
+	</select>
+	
+	<delete id="deleteAll">
+		delete from category
+	</delete>
+</mapper>
