@@ -94,16 +94,21 @@ public class CartController {
 		int i=0;
 		BigDecimal price=new BigDecimal(0);
 		for(Cart cart:list) {
-			Map likeCart=new HashMap();
-			likeCart.put("num", cart.getNum());
-			likeCart.put("cartid", cart.getCartid());
-			likeCart.put("pid", cart.getPid());
-			likeCart.put("cid", cart.getCid());
-			i+=cart.getNum();
 			Product p=this.productService.getObjectById(cart.getPid());
-			likeCart.put("product", p);
-			price=price.add(p.getDiscountedprice().multiply(new BigDecimal(cart.getNum()))).add(p.getPostage());
-			otherList.add(likeCart);
+			if(p!=null&&p.getIssj().equals("1")) {	
+				Map likeCart=new HashMap();
+				likeCart.put("num", cart.getNum());
+				likeCart.put("cartid", cart.getCartid());
+				likeCart.put("pid", cart.getPid());
+				likeCart.put("cid", cart.getCid());
+				i+=cart.getNum();			
+				likeCart.put("product", p);
+				price=price.add(p.getDiscountedprice().multiply(new BigDecimal(cart.getNum()))).add(p.getPostage()==null?new BigDecimal(0):p.getPostage());
+				otherList.add(likeCart);
+			}
+			else {
+				this.cartService.deletebyid(cart.getCartid());
+			}
 		}
 		map.put("cartlist", otherList);
 		map.put("price", price);

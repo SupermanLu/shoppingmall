@@ -63,8 +63,7 @@
 
 									</div>
 									<div class="con_shop">
-										<a href="${domain}/jsp/user/index.jsp" class="greenbtn">Continue
-											Shopping</a>
+										<a href="${domain}/jsp/user/index.jsp" class="greenbtn">继续购买</a>
 									</div>
 								</div>
 							</div>
@@ -195,33 +194,24 @@
 									<div class="each_form your_message">
 										<div class="each">
 											<h2 class="title">您的信息</h2>
-											<div class="clearfix">
-												<div class="label_input half_label_input">
-													<div class="label">
-														<label>姓</label>
-													</div>
-													<div class="input_w">
-														<input type="text" class="input_text" name="first_name_1"
-															value="" id="name1">
-													</div>
+
+											<div class="label_input long_label_input">
+												<div class="label">
+													<label>姓名</label>
 												</div>
-												<div class="label_input half_label_input">
-													<div class="label">
-														<label>名</label>
-													</div>
-													<div class="input_w">
-														<input type="text" class="input_text" name="last_name_1"
-															value="" id="name2">
-													</div>
+												<div class="input_w">
+													<input type="text" class="input_text" name="first_name"
+														value="" id="name">
 												</div>
 											</div>
+
 											<div class="label_input long_label_input">
 												<div class="label">
 													<label>电话</label>
 												</div>
 												<div class="input_w">
-													<input type="text" class="input_text" name="phone_1" id="mobile"
-														value="">
+													<input type="text" class="input_text" name="phone_1"
+														id="mobile" value="">
 												</div>
 											</div>
 											<div class="label_input long_label_input">
@@ -232,9 +222,9 @@
 													<textarea name="street_address_1" id="address"></textarea>
 												</div>
 											</div>
-											
-											
-											
+
+
+
 
 											<script>
 												$(".your_message .checkbox1")
@@ -883,55 +873,82 @@
 
 					}
 					
-					$('body').on('click','#sumbitinput',function(){
-						var name=$('#name1').val()+$('#name2').val();
-						var mobile=$('#mobile').val();
-						var address=$('#address').val();
-						$.ajax({
-							url : "${domain}/cart/getCart",
-							type : "POST",
-							contentType : "application/json",
-							data : JSON.stringify({
-								cid : '${custom.customid}'
-							}),
-							success : function(res) {
-								if(res.cartlist.length<=0){
-									alert('需要选择商品');
-									return;
-								}
-								for(var i in res.cartlist){
-									var item=res.cartlist[i];
-									var product=item.product;
-									$.ajax({
-										url : "${domain}/order/addOrder",
-										type : "POST",
-										contentType : "application/json",
-										data : JSON.stringify({
-											customid : '${custom.customid}',
-											proid:product.productid,
-											pname:product.pname,
-											preprice:product.discountedprice,
-											num:item.num,
-											postage:product.postage,
-											receiver:name,
-											location:address,
-											detaillocation:address,
-											phone:mobile
-										}),
-										success : function(res) {
-											if(res.status=='success'){
-												refreshCart2();
-											}
-											else{
-												alert(res.msg);
-											}
+					$.ajax({
+						url : "${domain}/order/selectLastByCid",
+						type : "POST",
+						contentType : "application/json",
+						data : JSON
+								.stringify({
+									customid : '${custom.customid}'
+								}),
+						success : function(res) {
+							$('#name').val(res.receiver);
+							$('#mobile').val(res.phone);
+							$('#address').val(res.location);
+						}
+					});
+					
+
+					$('body')
+							.on(
+									'click',
+									'#sumbitinput',
+									function() {
+										var name = $('#name').val();
+										var mobile = $('#mobile').val();
+										var address = $('#address').val();
+										if (name == '' || mobile == ''
+												|| address == '') {
+											alert('信息填写完整');
+											return;
 										}
-									});
-								}
-							}
-						});
-						
-					})
+										$
+												.ajax({
+													url : "${domain}/cart/getCart",
+													type : "POST",
+													contentType : "application/json",
+													data : JSON
+															.stringify({
+																cid : '${custom.customid}'
+															}),
+													success : function(res) {
+														if (res.cartlist.length <= 0) {
+															alert('需要选择商品');
+															return;
+														}
+														for ( var i in res.cartlist) {
+															var item = res.cartlist[i];
+															var product = item.product;
+															$
+																	.ajax({
+																		url : "${domain}/order/addOrder",
+																		type : "POST",
+																		contentType : "application/json",
+																		data : JSON
+																				.stringify({
+																					customid : '${custom.customid}',
+																					receiver : name,
+																					location : address,
+																					detaillocation : address,
+																					phone : mobile
+																				}),
+																		success : function(
+																				res) {
+																			if (res.status == 'success') {
+																				refreshCart2();
+																				alert('购买成功');
+																				window.location.href = "${domain}/jsp/user/index.jsp";
+																			} else {
+																				alert(res.msg);
+																			}
+																		}
+																	});
+														}
+
+													}
+												});
+
+									})
 				</script>
 				<script src="${domain}/jsp/user/js/validSend.js"></script>
 

@@ -32,4 +32,16 @@ public interface ProductMapper {
     int deleteAll();
     
     List<ProductWithBLOBs> getHot();
+    
+    List<ProductWithBLOBs> getTJ();
+    
+    List<ProductWithBLOBs> getJPTJ();
+    
+    List<ProductWithBLOBs> getRXJP();
+    
+    List<ProductWithBLOBs> getXP();
+    
+    List<ProductWithBLOBs> getQG();
+    
+    List<ProductWithBLOBs> getTG();
 }

@@ -25,4 +25,6 @@ public interface OrderMapper {
     List<Order> selectAll();
     
     int deleteAll();
+    
+    List<Order> selectListByCid(String customid);
 }

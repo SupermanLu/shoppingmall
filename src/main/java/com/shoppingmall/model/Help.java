@@ -3,7 +3,9 @@ package com.shoppingmall.model;
 public class Help {
     private String helpid;
 
-    private String helptype;
+    private String helpname;
+
+    private String helppid;
 
     private String helpcontent;
 
@@ -15,12 +17,20 @@ public class Help {
         this.helpid = helpid == null ? null : helpid.trim();
     }
 
-    public String getHelptype() {
-        return helptype;
+    public String getHelpname() {
+        return helpname;
     }
 
-    public void setHelptype(String helptype) {
-        this.helptype = helptype == null ? null : helptype.trim();
+    public void setHelpname(String helpname) {
+        this.helpname = helpname == null ? null : helpname.trim();
+    }
+
+    public String getHelppid() {
+        return helppid;
+    }
+
+    public void setHelppid(String helppid) {
+        this.helppid = helppid == null ? null : helppid.trim();
     }
 
     public String getHelpcontent() {
@@ -32,33 +42,46 @@ public class Help {
     }
     
     // Õ®”√
- 	private int limit;
+   	private int limit;
 
- 	private int offset;
+   	private int offset;
 
- 	private String search;
+   	private String search;
 
- 	public int getLimit() {
- 		return limit;
- 	}
+   	public int getLimit() {
+   		return limit;
+   	}
 
- 	public void setLimit(int limit) {
- 		this.limit = limit;
- 	}
+   	public void setLimit(int limit) {
+   		this.limit = limit;
+   	}
 
- 	public int getOffset() {
- 		return offset;
- 	}
+   	public int getOffset() {
+   		return offset;
+   	}
 
- 	public void setOffset(int offset) {
- 		this.offset = offset;
- 	}
+   	public void setOffset(int offset) {
+   		this.offset = offset;
+   	}
 
- 	public String getSearch() {
- 		return search;
- 	}
+   	public String getSearch() {
+   		return search;
+   	}
 
- 	public void setSearch(String search) {
- 		this.search = search;
- 	}
+   	public void setSearch(String search) {
+   		this.search = search;
+   	}
+
+	private String parenthelpname;
+   	
+   	public String getParenthelpname() {
+		return parenthelpname;
+	}
+
+	public void setParenthelpname(String parenthelpname) {
+		this.parenthelpname = parenthelpname;
+	}
+
+
+	
 }

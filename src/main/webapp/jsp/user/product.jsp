@@ -3,15 +3,38 @@
 <%@ include file="../common/headstyle.jsp"%>
 <body>
 	<%@ include file="../common/head.jsp"%>
+	<style>
+.pro_list .tab-contrainer {
+	position: fixed;
+	top: 167px;
+	left: 0;
+	z-index: 9999;
+	background: #fff;
+	width: 100%;
+}
 
+#pagecontrainer {
+	padding-top: 59px;
+}
+</style>
 	<!--Body-->
 	<div class="all_body_container">
+		<div class="layouts pro_list">
+<div class="tab-contrainer">
+			<h1 class="tab layouts" id="tab">
+				<script id="tabtemplate" type="text/x-tpl">
+{{#tab}}
+					<a href="JavaScript:;" class="tab-item {{hotClass}}" data-guid="{{value}}">{{text}}</a>
+{{/tab}}
+				</script>
+			</h1>
+			</div>
+			<div class="page_container" id="pagecontrainer">
 
-		<div class="page_container" id="pagecontrainer">
-		<script id="pagetemplate" type="text/x-tpl">
+				<script id="pagetemplate" type="text/x-tpl">
 			<div class="container">
 				<div class="catalog-list">
-					<div class="products">
+					<div class="products" id="{{category.cateid}}">
 						<div class="category-header read-more">
 							<div class="inner">
 								<div class="category-title"
@@ -26,28 +49,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="info-wrapper" style="display: none">
-									<div class="more-info">
-										<img
-											src="./Men’s watches – Elegance and Fashion-Welly Merck fashion Luxury watches for men and Elegant women_files/5afbfcaa0a5b1.jpg"
-											width="400" alt="A VERSATILE LOOK">
-										<div class="text">
-											<h3>A VERSATILE LOOK</h3>
-											<p>Welly Merck's mesh watches for men are durable,
-												dependable and always stylish. Free Shipping Worldwide.
-												Three-Year Warranty.</p>
-											<br> <br> <br> <br>
-										</div>
-									</div>
-									<div class="more-info">
-										<img src="https://www.wellymerck.com/watch/men" width="400"
-											alt=""><br> <br>
-										<div class="text">
-											<h3></h3>
-											<p></p>
-										</div>
-									</div>
-								</div>
+								
 							</div>
 						</div>
 						<div class="summary-product-list summary-product-list1 layouts">
@@ -56,12 +58,13 @@
 								<div class="each_product ">
 									<a
 										href="${domain}/jsp/user/productdetail.jsp?pid={{productid}}">
-										<div class="pro_name">{{pname}}</div>
+										
 										<div class="picture">
 											<img
 												src="{{logourl}}"
-												width="275" alt="{{pname}}">
+												width="275" height="275" alt="{{pname}}">
 										</div>
+										<div class="pro_name" style="margin:10px 0 20px;">{{pname}}</div>
 									</a>
 									<div class="price_wrap clearfix">
 
@@ -69,8 +72,8 @@
 										<div class="shop_now_btns">
 											<a
 												href="javascript:;" data-id="{{productid}}"
-												class="shop_now btn-label"> <span>SHOP NOW</span><br>
-												<span>SHOP NOW</span>
+												class="shop_now btn-label"> <span>马上兑换</span><br>
+												<span>马上兑换</span>
 											</a>
 										</div>
 									</div>
@@ -80,7 +83,7 @@
 						</div>
 					</div>
 					{{#clist}}
-					<div class="products">
+					<div class="products" id="{{cateid}}">
 						<div class="category-header read-more">
 							<div class="inner">
 								<div class="category-title"
@@ -95,25 +98,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="info-wrapper" style="display: none">
-									<div class="more-info">
-										<img src="https://www.wellymerck.com/watch/men" width="400"
-											alt="">
-										<div class="text">
-											<h3></h3>
-											<p></p>
-											<br> <br> <br> <br>
-										</div>
-									</div>
-									<div class="more-info">
-										<img src="https://www.wellymerck.com/watch/men" width="400"
-											alt=""><br> <br>
-										<div class="text">
-											<h3></h3>
-											<p></p>
-										</div>
-									</div>
-								</div>
+								
 							</div>
 						</div>
 						<div class="summary-product-list summary-product-list2 layouts">
@@ -121,27 +106,24 @@
 								{{#plist}}
 								<div class="each_product ">
 									<a
-										href="https://www.wellymerck.com/products/pioneer-dublin-42mm">
-										<div class="pro_name">{{pname}}</div>
+										href=""${domain}/jsp/user/productdetail.jsp?pid={{productid}}">
+										
 										<div class="picture">
 											<img
-												src="./Men’s watches – Elegance and Fashion-Welly Merck fashion Luxury watches for men and Elegant women_files/5ad73fceec291.jpg"
-												width="275" alt="{{pname}}">
+												src="{{logourl}}"
+												width="275" height="275" alt="{{pname}}">
 										</div>
+										<div class="pro_name" style="margin:10px 0 20px;">{{pname}}</div>
 									</a>
-									<div class="choice_wrap">
-										<span class="circle on"> <i class="dot"
-											style="background-color: #000000"></i>
-										</span>
-									</div>
+						
 									<div class="price_wrap clearfix">
 
 										<span class="price">¥{{discountedprice}}</span>
 										<div class="shop_now_btns">
 											<a
-												href="https://www.wellymerck.com/order/addcart/idstr/132-259-p-0"
-												class="shop_now btn-label"> <span>SHOP NOW</span><br>
-												<span>SHOP NOW</span>
+												href="javascript:;"
+												class="shop_now btn-label" data-id="{{productid}}"> <span>马上兑换</span><br>
+												<span>马上兑换</span>
 											</a>
 										</div>
 									</div>
@@ -154,9 +136,10 @@
 				</div>
 			</div>
 			</script>
+			</div>
 		</div>
-		
-		
+
+
 
 
 		<!--/Body-->
@@ -171,6 +154,13 @@
 		$(".read-more_btn").click(function() {
 			$(this).toggleClass("on");
 			$(this).parents(".read-more").find(".info-wrapper").slideToggle();
+		})
+
+		$('body').on('click', '.tab-item', function() {
+			$('.pro_list h1 a').removeClass('hot');
+			$(this).addClass("hot");
+			var guid = $(this).attr('data-guid');
+			$('body,html').animate({scrollTop: ($("#" + guid).offset().top-$($('.header')[0]).height()-$($('.tab-contrainer')[0]).height())}, 500);
 		})
 
 		$(".each_product .choice_wrap .circle").click(
@@ -189,23 +179,43 @@
 				$(this).prev().find(".summary-product-list-hide").show();
 			})
 		});
-		
-		$.ajax({
-			url:'${domain}/product/getproductlist',
-			type:'post',
-			contentType:'application/json',
-			data:JSON.stringify({
-				cateid:GetQueryString('cateid')
-			}),
-			success:function(res){
-				console.log(res);
-				var innerHtml=Mustache.render($('#pagetemplate').html(),res);
-				$('#pagecontrainer').html(innerHtml);
-			}
-		})
-		
-		$('body').on('click','.shop_now',function(){
-			var pid=$(this).attr('data-id');
+
+		$
+				.ajax({
+					url : '${domain}/product/getproductlist',
+					type : 'post',
+					contentType : 'application/json',
+					data : JSON.stringify({
+						cateid : GetQueryString('cateid')
+					}),
+					success : function(res) {
+						console.log(res);
+						var carts = [ {
+							text : res.category.catename,
+							value : res.category.cateid,
+							hotClass : 'hot'
+						} ]
+						for (var i = 0; i < res.clist.length; i++) {
+							var item = res.clist[i];
+							carts.push({
+								text : item.catename,
+								value : item.cateid
+							});
+						}
+						var tab = {
+							tab : carts
+						}
+						var innerHtml = Mustache.render($('#pagetemplate')
+								.html(), res);
+						var innerHtmlTab = Mustache.render($('#tabtemplate')
+								.html(), tab);
+						$('#pagecontrainer').html(innerHtml);
+						$('#tab').html(innerHtmlTab);
+					}
+				})
+
+		$('body').on('click', '.shop_now', function() {
+			var pid = $(this).attr('data-id');
 			addCart(pid);
 		})
 	</script>

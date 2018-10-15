@@ -94,13 +94,13 @@
 													},
 													messages : {
 														"username" : {
-															"required" : "Please enter your email",
-															"maxlength" : "Please enter less than 100 characters"
+															"required" : "请输入用户名",
+															"maxlength" : "至多100个字符"
 														},
 														"password" : {
-															"required" : "Please enter your password",
-															"minlength" : "Please enter 6 or more characters",
-															"maxlength" : "Please enter less than 20 characters"
+															"required" : "请输入密码",
+															"minlength" : "至少6个字符",
+															"maxlength" : "至多20个字符"
 														}
 													},
 													showErrors : function(

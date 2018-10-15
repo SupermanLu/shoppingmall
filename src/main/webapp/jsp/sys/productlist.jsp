@@ -7,22 +7,51 @@
 .modal {
 	z-index: 1000;
 }
+
+#img-list {
+	padding-left: 120px;
+}
+
+#img-list img {
+	margin: 10px;
+}
 </style>
 <div id="toolbar">
 	<div class="btn-group">
 		<button class="btn btn-default" id="add">
 			<i class="glyphicon glyphicon-plus">添加商品</i>
 		</button>
+		<button class="btn btn-default" id="search">
+			<i class="glyphicon glyphicon-search">搜索</i>
+		</button>
 	</div>
-	<!--
-	<div class="form-group">
-		 <label class="control-label">性别：</label> <label class="radio-inline">
-			<input type="radio" name="sex" value="男" /> 男
-		</label> <label class="radio-inline"> <input type="radio" name="sex"
-			value="女" /> 女
-		</label> 
+	<div class="layui-form">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">商品编号</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="searchno" placeholder="">
+				</div>
+				<label class="layui-form-label">商品名称</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="searchname"
+						placeholder="">
+				</div>
+				<label class="layui-form-label">更新时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="start_time" class="layui-input"
+						id="start_time" placeholder="开始时间(更新时间)">
+				</div>
+				<div class="layui-input-inline">
+                        <input
+						type="text" name="end_time" class="layui-input" id="end_time"
+						placeholder="结束时间(更新时间)">
+				</div>
+			</div>
+
+		</div>
 	</div>
-	-->
+
 </div>
 
 <input type="file" name="myfile" id="myfile" style="display: none;" />
@@ -41,8 +70,41 @@
 	var isAdd = true;
 	var dataid = '';
 	var path = '';
-	layui.use('form', function() {
+	var tag = 'logo';
+	var pimgpath = '';
+	layui.use([ 'form', 'laydate' ], function() {
 		form = layui.form;
+		var laydate = layui.laydate;
+		//日期时间范围
+		var nowTime = new Date().valueOf();
+		var max = null;
+
+		var start = laydate.render({
+			elem : '#start_time',
+			type : 'datetime',
+			btns : [ 'clear', 'confirm' ],
+			done : function(value, date) {
+				endMax = end.config.max;
+				end.config.min = date;
+				end.config.min.month = date.month - 1;
+			}
+		});
+		var end = laydate.render({
+			elem : '#end_time',
+			type : 'datetime',
+			done : function(value, date) {
+				if ($.trim(value) == '') {
+					var curDate = new Date();
+					date = {
+						'date' : curDate.getDate(),
+						'month' : curDate.getMonth() + 1,
+						'year' : curDate.getFullYear()
+					};
+				}
+				start.config.max = date;
+				start.config.max.month = date.month - 1;
+			}
+		});
 
 	});
 	var ue;
@@ -55,77 +117,104 @@
 		ue.setContent('');
 	});
 
-	var $objectTable = getTable(
-			$('#tableCommon'),
-			[
+	var $objectTable = $('#tableCommon')
+			.bootstrapTable(
 					{
-						align : 'center',
-						title : '序号',
-						field : '',
-						formatter : function(value, row, index) {
-							return index + 1;
+						columns : [
+								{
+									align : 'center',
+									title : '序号',
+									field : '',
+									formatter : function(value, row, index) {
+										return index + 1;
+									}
+								},
+								{
+									field : 'pname',
+									title : '商品名称'
+								},
+								{
+									field : 'originalprice',
+									title : '商品价格'
+								},
+								{
+									field : 'stock',
+									title : '商品库存'
+								},
+								{
+									field : 'sales',
+									title : '商品销量'
+								},
+								{
+									field : 'updatetime',
+									title : '更新时间'
+								},
+								{
+									field : 'ordernum',
+									title : '排序'
+								},
+								{
+									align : 'center',
+									field : 'productid',
+									title : '上下架',
+									formatter : function(value, row, index) {
+										var res = '';
+										if (row.issj == '1') {
+											res = "<button class='btn btn-info item-xj' data-id='"
+							+ value + "'> 下架 </button>";
+										} else {
+											res = "<button class='btn btn-info item-sj' data-id='"
+							+ value + "'> 上架 </button>";
+										}
+										return res;
+									}
+								},
+								{
+									align : 'center',
+									field : 'productid',
+									title : '修改',
+									formatter : function(value) {
+										return "<button class='btn btn-info item-edit' data-id='"
+			+ value + "'> 修改 </button>";
+									}
+								},
+								{
+									align : 'center',
+									field : 'productid',
+									title : '删除',
+									formatter : function(value) {
+										return "<button class='btn btn-warning item-del' data-id='"
+			+ value + "'> 删除 </button>";
+									}
+								} ],
+						url : '${domain}/product/getProduct',
+						search : false,
+						showToggle : false,
+						cardView : false,
+						pagination : true,
+						sidePagination : 'server',
+						pageList : [ 5, 10, 20, 50 ],
+						queryParams : function(params) {
+							params.pname = $('#searchname').val();
+							params.searchno = $('#searchno').val();
+							params.begintime = $('#start_time').val();
+							params.endtime = $('#end_time').val();
+							return params;
 						}
-					},
-					{
-						field : 'pname',
-						title : '商品名称'
-					},
-					{
-						field : 'originalprice',
-						title : '商品价格'
-					},
-					{
-						field : 'stock',
-						title : '商品库存'
-					},
-					{
-						field : 'sales',
-						title : '商品销量'
-					},
-					{
-						field : 'updatetime',
-						title : '更新时间'
-					},
-					{
-						field : 'ordernum',
-						title : '排序'
-					},
-					{
-						align : 'center',
-						field : 'productid',
-						title : '上下架',
-						formatter : function(value, row, index) {
-							var res = '';
-							if (row.issj == '1') {
-								res = "<button class='btn btn-info item-xj' data-id='"
-									+ value + "'> 下架 </button>";
-							} else {
-								res = "<button class='btn btn-info item-sj' data-id='"
-									+ value + "'> 上架 </button>";
-							}
-							return res;
-						}
-					},
-					{
-						align : 'center',
-						field : 'productid',
-						title : '修改',
-						formatter : function(value) {
-							return "<button class='btn btn-info item-edit' data-id='"
-					+ value + "'> 修改 </button>";
-						}
-					},
-					{
-						align : 'center',
-						field : 'productid',
-						title : '删除',
-						formatter : function(value) {
-							return "<button class='btn btn-warning item-del' data-id='"
-					+ value + "'> 删除 </button>";
-						}
-					} ], '${domain}/product/getProduct', {});
+					});
 
 	initListener();
+
+	function renderImg() {
+		if (pimgpath != '') {
+			var imgs = pimgpath.split(',');
+			var innerHtml = '';
+			for ( var i in imgs) {
+				innerHtml += '<img class="layui-upload-img" src="'+imgs[i]+'">';
+			}
+			$('#img-list').html(innerHtml);
+		}
+	}
 
 	function deleteUser(ids) {
 		var msg = "您真的确定要删除吗？";
@@ -152,7 +241,7 @@
 		var msg = "您真的确定要删除吗？";
 		if (confirm(msg) == true) {
 			$.ajax({
-				url : "${domain}/product/deleteProductbyid",
+				url : "${domain}/product/deleteProductybyid",
 				type : "POST",
 				contentType : "application/json",
 				data : JSON.stringify({
@@ -179,14 +268,14 @@
 				if (res.status == 'success') {
 					alert((isAdd ? '新增' : '修改') + '成功');
 					$('#myModal').modal('toggle');
-					$tableObject.bootstrapTable('refresh');
+					$objectTable.bootstrapTable('refresh');
 				} else {
 					alert(res.msg);
 				}
 			}
 		});
 	}
-	
+
 	function editCustom1(url, data) {
 		$.ajax({
 			url : url,
@@ -197,8 +286,8 @@
 				console.log(JSON.stringify(res));
 				if (res.status == 'success') {
 					alert('修改成功');
-					
-					$tableObject.bootstrapTable('refresh');
+
+					$objectTable.bootstrapTable('refresh');
 				} else {
 					alert(res.msg);
 				}
@@ -216,8 +305,19 @@
 			success : function(data, status) {
 
 				console.log(data);
-				$('#uploadImg').attr('src', '${domain}/' + data.msg);
-				path = '${domain}/' + data.msg;
+
+				var thisPath = '${domain}/' + data.msg;
+				if (tag == 'pimg') {
+					if (pimgpath != '') {
+						pimgpath = pimgpath + ',' + thisPath
+					} else {
+						pimgpath = thisPath;
+					}
+					renderImg();
+				} else {
+					$('#uploadImg').attr('src', thisPath);
+					path = thisPath;
+				}
 				$('#myfile').val('');
 			},
 			error : function(data, status, e) {
@@ -239,6 +339,13 @@
 		});
 
 		$('body').on('click', '#uploadBtn', function() {
+			tag = 'logo';
+			console.log(1);
+			$('#myfile').click();
+		})
+
+		$('body').on('click', '#uploadBtnPimg', function() {
+			tag = 'pimg';
 			console.log(1);
 			$('#myfile').click();
 		})
@@ -311,7 +418,9 @@
 
 											$('#productname').val('');
 											$('#ordernum').val('');
-											path='';
+											path = '';
+											pimgpath = '';
+											$('#img-list').html('');
 											$('#uploadImg').attr('src', '');
 											$("input:radio[name='issj']").prop(
 													'checked', 'false');
@@ -359,7 +468,7 @@
 				issj : '1'
 			}));
 		});
-		
+
 		$('body').on('click', '.item-xj', function() {
 			dataid = $(this).attr('data-id');
 			editCustom1('${domain}/product/updateProduct', JSON.stringify({
@@ -509,6 +618,11 @@
 																		ue
 																				.setContent(unescape(data.descption));
 																	});
+															pimgpath = (data.pimgurl == null ? ''
+																	: data.pimgurl);
+															path = data.logourl;
+
+															renderImg();
 
 															form.render();
 														}
@@ -523,52 +637,85 @@
 			deleteObject(dataid);
 		});
 
-		$('body').on('click', '#submitBtn', function() {
-			if (isAdd) {
-				editCustom('${domain}/product/addProduct', JSON.stringify({
-					pname : $('#productname').val(),
-					cid : $('#parentcateid').val(),
-					ordernum : $('#ordernum').val(),
-					issj : $("input[name='issj']:checked").val(),
-					istj : $("input[name='istj']:checked").val(),
-					isjptj : $("input[name='isjptj']:checked").val(),
-					isrxjp : $("input[name='isrxjp']:checked").val(),
-					isrm : $("input[name='isrm']:checked").val(),
-					isxp : $("input[name='isxp']:checked").val(),
-					isqg : $("input[name='isqg']:checked").val(),
-					isdlsy : $("input[name='isdlsy']:checked").val(),
-					istg : $("input[name='istg']:checked").val(),
-					originalprice : $('#originalprice').val(),
-					discountedprice : $('#discountedprice').val(),
-					postage : $('#postage').val(),
-					stock : $('#stock').val(),
-					descption : escape(ue.getContent()),
-					logourl : path
-				}));
-			} else {
-				editCustom('${domain}/product/updateProduct', JSON.stringify({
-					productid : dataid,
-					pname : $('#productname').val(),
-					cid : $('#parentcateid').val(),
-					ordernum : $('#ordernum').val(),
-					issj : $("input[name='issj']:checked").val(),
-					istj : $("input[name='istj']:checked").val(),
-					isjptj : $("input[name='isjptj']:checked").val(),
-					isrxjp : $("input[name='isrxjp']:checked").val(),
-					isrm : $("input[name='isrm']:checked").val(),
-					isxp : $("input[name='isxp']:checked").val(),
-					isqg : $("input[name='isqg']:checked").val(),
-					isdlsy : $("input[name='isdlsy']:checked").val(),
-					istg : $("input[name='istg']:checked").val(),
-					originalprice : $('#originalprice').val(),
-					discountedprice : $('#discountedprice').val(),
-					postage : $('#postage').val(),
-					stock : $('#stock').val(),
-					descption : escape(ue.getContent()),
-					logourl : path
-				}));
-			}
+		$('body').on('click', '#search', function() {
+			$objectTable.bootstrapTable('refresh');
 		})
+
+		$('body').on(
+				'click',
+				'#submitBtn',
+				function() {
+					if (isAdd) {
+						editCustom('${domain}/product/addProduct', JSON
+								.stringify({
+									pname : $('#productname').val(),
+									cid : $('#parentcateid').val(),
+									ordernum : $('#ordernum').val(),
+									issj : $("input[name='issj']:checked")
+											.val(),
+									istj : $("input[name='istj']:checked")
+											.val(),
+									isjptj : $("input[name='isjptj']:checked")
+											.val(),
+									isrxjp : $("input[name='isrxjp']:checked")
+											.val(),
+									isrm : $("input[name='isrm']:checked")
+											.val(),
+									isxp : $("input[name='isxp']:checked")
+											.val(),
+									isqg : $("input[name='isqg']:checked")
+											.val(),
+									isdlsy : $("input[name='isdlsy']:checked")
+											.val(),
+									istg : $("input[name='istg']:checked")
+											.val(),
+									originalprice : $('#originalprice').val(),
+									discountedprice : $('#discountedprice')
+											.val(),
+									postage : $('#postage').val(),
+									stock : ($('#stock').val() == '' ? '0' : $(
+											'#stock').val()),
+									descption : escape(ue.getContent()),
+									logourl : path,
+									pimgurl : pimgpath
+								}));
+					} else {
+						editCustom('${domain}/product/updateProduct', JSON
+								.stringify({
+									productid : dataid,
+									pname : $('#productname').val(),
+									cid : $('#parentcateid').val(),
+									ordernum : $('#ordernum').val(),
+									issj : $("input[name='issj']:checked")
+											.val(),
+									istj : $("input[name='istj']:checked")
+											.val(),
+									isjptj : $("input[name='isjptj']:checked")
+											.val(),
+									isrxjp : $("input[name='isrxjp']:checked")
+											.val(),
+									isrm : $("input[name='isrm']:checked")
+											.val(),
+									isxp : $("input[name='isxp']:checked")
+											.val(),
+									isqg : $("input[name='isqg']:checked")
+											.val(),
+									isdlsy : $("input[name='isdlsy']:checked")
+											.val(),
+									istg : $("input[name='istg']:checked")
+											.val(),
+									originalprice : $('#originalprice').val(),
+									discountedprice : $('#discountedprice')
+											.val(),
+									postage : $('#postage').val(),
+									stock : ($('#stock').val() == '' ? '0' : $(
+											'#stock').val()),
+									descption : escape(ue.getContent()),
+									logourl : path,
+									pimgurl : pimgpath
+								}));
+					}
+				})
 
 	}
 </script>
@@ -720,9 +867,9 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">商品图片:</label>
 						<div class="layui-upload">
-							<button type="button" class="layui-btn" id="uploadBtn">上传图片</button>
+							<button type="button" class="layui-btn" id="uploadBtnPimg">上传图片</button>
 							<div class="layui-upload-list" id="img-list">
-								<img class="layui-upload-img" id="uploadImg">
+								<img class="layui-upload-img">
 							</div>
 						</div>
 

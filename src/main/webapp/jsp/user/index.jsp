@@ -11,7 +11,8 @@
 				<div class="swiper-wrapper" id="swipercontrainer">
 					<script id="swipertemplate" type="text/x-tpl">
 					{{#swiplist}}
-					<div class="swiper-slide">
+					
+					<a class="swiper-slide" href="{{swiplink}}"  target="_blank">
 						<div class="index_banner"
 							style="height:450px;background:url({{swipimgurl}}) no-repeat center center">
 							<div class="layouts">
@@ -23,24 +24,15 @@
 											</div>
 										</h2>
 										<div class="btn_wrap">
-											<a
-												href="{{swiplink}}"
-												class="shop_now btn-label" target="_blank"> <span>
-													<div style="color: #FFFFFF; font-family: regular;">
-														<b>点击进入</b>
-													</div>
-											</span><br> <span>
-													<div style="color: #FFFFFF; font-family: regular;">
-														<b>点击进入</b>
-													</div>
-											</span>
-											</a>
+											
+												
+											
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</a>
 					{{/swiplist}}
 					
 					</script>
@@ -48,29 +40,28 @@
 			</div>
 		</div>
 		<script>
-		$.ajax({
-			url : "${domain}/swip/getall",
-			type : "POST",
-			contentType : "application/json",
-			success : function(res) {
-				var result={
-						swiplist:res
+			$.ajax({
+				url : "${domain}/swip/getall",
+				type : "POST",
+				contentType : "application/json",
+				success : function(res) {
+					var result = {
+						swiplist : res
+					}
+					var innerHtml = Mustache.render(
+							$('#swipertemplate').html(), result);
+					$('#swipercontrainer').html(innerHtml);
+
+					var viewSwiper = new Swiper(
+							'.top-swiper .swiper-container', {
+								nextButton : '.view .swiper-button-next',
+								prevButton : '.view .swiper-button-prev',
+								autoHeight : true, //enable auto height
+								autoplay : 3000,
+								autoplayDisableOnInteraction : false,
+							});
 				}
-				var innerHtml=Mustache.render($('#swipertemplate').html(),result);
-				$('#swipercontrainer').html(innerHtml);
-				
-				var viewSwiper = new Swiper('.top-swiper .swiper-container', {
-					nextButton : '.view .swiper-button-next',
-					prevButton : '.view .swiper-button-prev',
-					autoHeight : true, //enable auto height
-					autoplay : 3000,
-					autoplayDisableOnInteraction : false,
-				});
-			}
-		});
-		
-		
-			
+			});
 		</script>
 		<div class="gray_discount">
 			<div class="layouts">
@@ -115,10 +106,10 @@
 							style="width: 277.5px; margin-right: 30px;">
 							<div class="scroll_product">
 								<a
-									href="${domain}/jsp/user/productdetail.jsp?pid={{productid}}">
+									href="javascript:;" data-id="{{productid}}">
 									<img
 									src="{{logourl}}"
-									width="275" alt="{{pname}}">
+									width="275" height="275" alt="{{pname}}">
 								</a>
 								<div class="text_w">
 									<strong class="pro_name">{{pname}}</strong>
@@ -128,8 +119,8 @@
 										<!--<span class="price">￥{{discountedprice}}</span>-->
 										<a
 											href="javascript:;" data-id="{{productid}}"
-											class="shop_now btn-label"> <span>SHOP NOW</span><br>
-											<span>SHOP NOW</span>
+											class="shop_now btn-label"> <span>马上兑换</span><br>
+											<span>马上兑换</span>
 										</a>
 									</div>
 								</div>
@@ -147,39 +138,200 @@
 				<!--end Swiper-->
 			</div>
 		</div>
+		<div class="index_show">
+			<div class="layouts pro_list">
+				<h1 class="tab">
+					<a href="javascript:;" class="hot" data-index="1">推荐商品</a> <a
+						href="javascript:;" data-index="2">精品推荐</a> <a href="javascript:;"
+						data-index="3">热卖精品</a> <a href="javascript:;" data-index="4">新品上架</a>
+						<a href="javascript:;" data-index="5">抢购商品</a>
+						<a href="javascript:;" data-index="6">团购商品</a>
+				</h1>
+				<script id="ulisttemplate" type="text/x-tpl">
+							{{#list}}
+							<div class="per_one goproduct" data-id="{{productid}}" style="{{isShow}}">
+								<img src="{{logourl}}" alt="{{pname}}">
+								<div class="shop_now table transition">
+									<span class="table_cell">{{pname}}
+<br />折扣价:￥{{discountedprice}}&nbsp&nbsp|&nbsp&nbsp销量:{{sales}}</span>
+
+									
+								</div>
+							</div>
+							{{/list}}
+				</script>
+				<ul style="" data-index="1">
+					<li>
+						<div class="list clearfix" id="ulist1">
+							
+						</div>
+						<div class="show_more">
+							<a href="javascript:void(0)" class="more listmore">
+								<span>显示更多</span>
+							</a>
+						</div>
+					</li>
+				</ul>
+				<ul style="display:none;" data-index="2">
+					<li>
+						<div class="list clearfix" id="ulist2">
+							
+						</div>
+						<div class="show_more">
+							<a href="javascript:void(0)" class="more listmore">
+								<span>显示更多</span>
+							</a>
+						</div>
+					</li>
+				</ul>
+				<ul style="display:none;" data-index="3">
+					<li>
+						<div class="list clearfix" id="ulist3">
+							
+						</div>
+						<div class="show_more">
+							<a href="javascript:void(0)"  class="more listmore">
+								<span>显示更多</span>
+							</a>
+						</div>
+					</li>
+				</ul>
+				<ul style="display:none;" data-index="4">
+					<li>
+						<div class="list clearfix" id="ulist4">
+							
+						</div>
+						<div class="show_more">
+							<a href="javascript:void(0)"  class="more listmore">
+								<span>显示更多</span>
+							</a>
+						</div>
+					</li>
+				</ul>
+				<ul style="display:none;" data-index="5">
+					<li>
+						<div class="list clearfix" id="ulist5">
+							
+						</div>
+						<div class="show_more">
+							<a href="javascript:void(0)"  class="more listmore">
+								<span>显示更多</span>
+							</a>
+						</div>
+					</li>
+				</ul>
+				<ul style="display:none;" data-index="6">
+					<li>
+						<div class="list clearfix" id="ulist6">
+							
+						</div>
+						<div class="show_more">
+							<a href="javascript:void(0)"  class="more listmore">
+								<span>显示更多</span>
+							</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
 		<script>
 			//POPULAR HOT & BESTSELLERS
 			
+			$('body').on('click','.listmore',function(){
+				$(this).css('display','none');
+				var ulist=$(this).parent().parent().children('div:eq(0)');
+				$(ulist).find('.per_one').css('display','block');
+			})
 			
-			$.ajax({
-				url : "${domain}/product/getHot",
-				type : "POST",
-				contentType : "application/json",
-				success : function(res) {
-					if(res.length>0){
-						res[0].cls='swiper-slide-active';
+			
+			$('body').on('click','.pro_list h1 a',function(){
+				var index=$(this).attr('data-index');
+				$('.pro_list ul').css('display','none');
+				$('.pro_list h1 a').removeClass('hot');
+				var uls=$('.pro_list ul');
+
+				for(var i=0;i<uls.length;i++){
+					if($(uls[i]).attr('data-index')==index){
+						$(uls[i]).css('display','block');
 					}
-					if(res.length>1){
-						res[1].cls='swiper-slide-next';
-					}
-					var result={
-							productlist:res
-					}
-					var innerHtml=Mustache.render($('#populartemplate').html(),result);
-					$('#popularcontrainer').html(innerHtml);
-					
-					var swiper = new Swiper('.index_popular .swiper-container', {
-						nextButton : '.index_popular .swiper-button-next',
-						prevButton : '.index_popular .swiper-button-prev',
-						slidesPerView : 4,
-						spaceBetween : 30,
-						paginationClickable : true
-					});
 				}
-			});
+				
+				$(this).addClass('hot');
+			})
 			
-			$('body').on('click','.shop_now',function(){
-				var pid=$(this).attr('data-id');
+			
+			$('body').on('click','.goproduct',function(){
+				var productid=$(this).attr('data-id');
+				window.location.href = "${domain}/jsp/user/productdetail.jsp?pid="+productid;
+			})
+			
+			$('body').on('click','#popularcontrainer .swiper-slide a',function(){
+				var productid=$(this).attr('data-id');
+				window.location.href = "${domain}/jsp/user/productdetail.jsp?pid="+productid;
+			})
+			
+			var listTemplate=$('#ulisttemplate').html();
+			
+			function renderUl(dom,url){
+				$
+				.ajax({
+					url : url,
+					type : "POST",
+					contentType : "application/json",
+					success : function(res) {
+						if (res.length > 6) {
+							res[0].isShow = 'display:none;';
+						}
+						var result = {
+							list : res
+						}
+						var innerHtml = Mustache.render(listTemplate, result);
+						dom.html(innerHtml);
+					}
+				});
+			}
+			
+			renderUl($(ulist1),"${domain}/product/getTJ");
+			renderUl($(ulist2),"${domain}/product/getJPTJ");
+			renderUl($(ulist3),"${domain}/product/getRXJP");
+			renderUl($(ulist4),"${domain}/product/getXP");
+			renderUl($(ulist5),"${domain}/product/getQG");
+			renderUl($(ulist6),"${domain}/product/getTG");
+
+			$
+					.ajax({
+						url : "${domain}/product/getHot",
+						type : "POST",
+						contentType : "application/json",
+						success : function(res) {
+							if (res.length > 0) {
+								res[0].cls = 'swiper-slide-active';
+							}
+							if (res.length > 1) {
+								res[1].cls = 'swiper-slide-next';
+							}
+							var result = {
+								productlist : res
+							}
+							var innerHtml = Mustache.render($(
+									'#populartemplate').html(), result);
+							$('#popularcontrainer').html(innerHtml);
+
+							var swiper = new Swiper(
+									'.index_popular .swiper-container',
+									{
+										nextButton : '.index_popular .swiper-button-next',
+										prevButton : '.index_popular .swiper-button-prev',
+										slidesPerView : 4,
+										spaceBetween : 30,
+										paginationClickable : true,
+										autoplay: 2000
+									});
+						}
+					});
+
+			$('body').on('click', '.shop_now', function() {
+				var pid = $(this).attr('data-id');
 				addCart(pid);
 			})
 		</script>
@@ -317,28 +469,6 @@
 		        content: "/index/loadshowcode"
 		    });
 		});*/
-
-		var interval;
-		var pos = 0;
-		window.onload = function() {
-			var divShow = document.getElementById("slideshow");
-			var P = divShow.getElementsByTagName('p');
-
-			divShow.onmouseover = function() {
-				clearInterval(interval);
-			};
-			divShow.onmouseout = function() {
-				run(P);
-			};
-			run(P);
-		}
-		var run = function(P) {
-			// interval = setInterval(function() {
-			//     P[pos].style.display = 'none';
-			//     pos = ++pos == P.length ? 0 : pos;
-			//     P[pos].style.display = 'inline';
-			// }, 1000);
-		}
 	</script>
 	<script>
 		var viewSwiper = new Swiper('.index_about .view .swiper-container', {

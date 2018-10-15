@@ -432,7 +432,7 @@
 		,
 		<include refid="Blob_Column_List" />
 		from product
-		where pname like binary '%${search}%' and pno like binary '%${search}%' and updatetime like binary '%${search}%'
+		<![CDATA[where pname like binary '%${pname}%' and pno like binary '%${searchno}%' and updatetime>=#{begintime,jdbcType=VARCHAR}  and updatetime<=#{endtime,jdbcType=VARCHAR}]]>
 		order by
 		ordernum desc
 		limit #{limit,jdbcType=INTEGER} offset
@@ -444,7 +444,7 @@
 		,
 		<include refid="Blob_Column_List" />
 		from product
-		where pname like binary '%${search}%' and pno like binary '%${search}%' and updatetime like binary '%${search}%'
+		<![CDATA[where pname like binary '%${pname}%' and pno like binary '%${searchno}%' and updatetime>=#{begintime,jdbcType=VARCHAR}  and updatetime<=#{endtime,jdbcType=VARCHAR}]]>
 		order by
 		ordernum desc
 	</select>
@@ -458,8 +458,66 @@
 		where isrm='1' and issj='1'
 		order by ordernum desc
 	</select>
-
-
+	
+	<select id="getTJ" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where istj='1' and issj='1'
+		order by ordernum desc
+	</select>
+	
+	<select id="getJPTJ" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where isjptj='1' and issj='1'
+		order by ordernum desc
+	</select>
+	
+	<select id="getRXJP" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where isrxjp='1' and issj='1'
+		order by ordernum desc
+	</select>
+	
+	<select id="getXP" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where isxp='1' and issj='1'
+		order by ordernum desc
+	</select>
+	
+	<select id="getQG" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where isqg='1' and issj='1'
+		order by ordernum desc
+	</select>
+	
+	<select id="getTG" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from product
+		where istg='1' and issj='1'
+		order by ordernum desc
+	</select>
 
 	<delete id="deleteAll">
 		delete from product

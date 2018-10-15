@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -37,10 +38,12 @@ import com.shoppingmall.model.Custom;
 import com.shoppingmall.model.Friendlink;
 import com.shoppingmall.model.Message;
 import com.shoppingmall.model.Note;
+import com.shoppingmall.model.Score;
 import com.shoppingmall.model.Users;
 import com.shoppingmall.service.CustomService;
 import com.shoppingmall.service.FriendlinkService;
 import com.shoppingmall.service.NoteService;
+import com.shoppingmall.service.ScoreService;
 import com.shoppingmall.service.UsersService;
 
 @Controller
@@ -59,11 +62,12 @@ public class CustomController {
 
 	@Resource
 	private FriendlinkService friendlinkService;
-	
+
 	@Resource
 	private NoteService noteService;
 
-	
+	@Resource
+	private ScoreService scoreService;
 
 	/*
 	 * Custom
@@ -133,6 +137,23 @@ public class CustomController {
 		try {
 
 			Custom custom = this.customService.getObjectById(object.getCustomid());
+			Score score = new Score();
+			score.setScoreid(UUID.randomUUID().toString().toLowerCase());
+			score.setCustomid(object.getCustomid());
+			int i = custom.getScore().compareTo(object.getScore());
+			if (i == 1) {
+				score.setType("1");
+				score.setScore(custom.getScore().subtract(object.getScore()));
+			} else {
+				score.setType("0");
+				score.setScore(object.getScore().subtract(custom.getScore()));
+			}
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			score.setOperatetime(sdf.format(new Date()));
+
+			this.scoreService.insert(score);
 
 			custom.setScore(object.getScore());
 
@@ -146,6 +167,36 @@ public class CustomController {
 		message.setStatus(status);
 		message.setMsg(msg);
 		return message;
+	}
+
+	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+	@ResponseBody
+	public Message updateScore(@RequestBody Map<String, String> map, HttpServletRequest request)
+			throws UnsupportedEncodingException {
+		String status = "success";
+		String msg = "";
+		try {
+			String customid=map.get("customid");
+			String oldpassword=map.get("oldpassword");
+			String newpassword=map.get("newpassword");
+			Custom custom=this.customService.getObjectById(customid);
+			if(SHA1.encode(oldpassword).equals(custom.getPassword())) {
+				custom.setPassword(SHA1.encode(newpassword));
+				this.customService.update(custom);
+			}
+			else {
+				status = "fail";
+				msg = "密码不正确";
+			}
+		} catch (Exception e) {
+			status = "fail";
+			msg = e.getMessage();
+		}
+		Message message = new Message();
+		message.setStatus(status);
+		message.setMsg(msg);
+		return message;
+
 	}
 
 	@RequestMapping(value = "/importCustom", method = RequestMethod.POST)
@@ -187,15 +238,17 @@ public class CustomController {
 					List<Custom> list = this.customService.selectByCustomName(object);
 
 					if (list.size() <= 0) {
-						object.setCustomid(UUID.randomUUID().toString().toLowerCase());
+						String customid = UUID.randomUUID().toString().toLowerCase();
+						object.setCustomid(customid);
 						object.setMobile(mobile);
 						object.setTruename(truename);
 						object.setBankno(bankno);
 						object.setWritedate(sdf.format(new Date()));
-						object.setPassword(SHA1.encode("11111"));
+						object.setPassword(SHA1.encode("123456"));
 						object.setStatus("0"); // 客户状态 0 正常 1 冻结
 						object.setScore(BigDecimal.valueOf(0));
 						this.customService.insert(object);
+
 					} else {
 						Custom customfg = list.get(0);
 						customfg.setMobile(mobile);
@@ -251,24 +304,49 @@ public class CustomController {
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					BigDecimal score;
 					if (!scoreStr.equals("")) {
-						score = new BigDecimal(scoreStr);
+						score = new BigDecimal(scoreStr).divide(new BigDecimal(50));
 					} else {
 						score = BigDecimal.valueOf(0);
 					}
-
+					object.setScore(score);
 					List<Custom> list = this.customService.selectByCustomName(object);
 
 					if (list.size() <= 0) {
-						object.setCustomid(UUID.randomUUID().toString().toLowerCase());
+						String customid = UUID.randomUUID().toString().toLowerCase();
+						object.setCustomid(customid);
 						object.setWritedate(sdf.format(new Date()));
-						object.setPassword(SHA1.encode("11111"));
+						object.setPassword(SHA1.encode("123456"));
 						object.setStatus("0"); // 客户状态 0 正常 1 冻结
-						object.setScore(score);
+						
 						this.customService.insert(object);
+
+						Score scoreItem = new Score();
+						scoreItem.setScoreid(UUID.randomUUID().toString().toLowerCase());
+						scoreItem.setCustomid(customid);
+						scoreItem.setType("1");
+						scoreItem.setScore(score);
+
+						this.scoreService.insert(scoreItem);
 					} else {
 						Custom customfg = list.get(0);
 						BigDecimal scoreOrigin = customfg.getScore();
 						customfg.setScore(scoreOrigin.add(score));
+
+						// 1是- 0是+
+						Score scoreItem = new Score();
+						scoreItem.setScoreid(UUID.randomUUID().toString().toLowerCase());
+						scoreItem.setCustomid(customfg.getCustomid());
+						int j = customfg.getScore().compareTo(object.getScore());
+						if (j == 1) {
+							scoreItem.setType("1");
+							scoreItem.setScore(customfg.getScore().subtract(object.getScore()));
+						} else {
+							scoreItem.setType("0");
+							scoreItem.setScore(object.getScore().subtract(customfg.getScore()));
+						}
+						scoreItem.setOperatetime(sdf.format(new Date()));
+						this.scoreService.insert(scoreItem);
+
 						this.customService.update(customfg);
 					}
 				}
@@ -412,7 +490,7 @@ public class CustomController {
 		String password = SHA1.encode(object.getPassword());
 		List<Custom> resObjects = this.customService.selectByCustomName(object);
 		if (resObjects.size() > 0) {
-			if(resObjects.get(0).getStatus().equals("0")) {
+			if (resObjects.get(0).getStatus().equals("0")) {
 				if (resObjects.get(0).getPassword().equals(password)) {
 					status = "success";
 					msg = "成功登录";
@@ -421,8 +499,7 @@ public class CustomController {
 					status = "fail";
 					msg = "密码错误";
 				}
-			}
-			else {
+			} else {
 				status = "fail";
 				msg = "账户冻结";
 			}

@@ -223,4 +223,34 @@ public class Order {
 	public void setCustomname(String customname) {
 		this.customname = customname;
 	}
+	
+private String begintime;
+	
+	private String endtime;
+	
+	public String getBegintime() {
+		return begintime;
+	}
+
+	public void setBegintime(String begintime) {
+		this.begintime = begintime;
+	}
+
+	public String getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
+	}
+	
+	private String searchno;
+
+	public String getSearchno() {
+		return searchno;
+	}
+
+	public void setSearchno(String searchno) {
+		this.searchno = searchno;
+	}
 }

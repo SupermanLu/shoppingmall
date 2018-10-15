@@ -26,4 +26,16 @@ public interface ProductService {
 	
 	public List<ProductWithBLOBs> getHot();
 	
+	public List<ProductWithBLOBs> getTJ();
+    
+	public List<ProductWithBLOBs> getJPTJ();
+    
+	public List<ProductWithBLOBs> getRXJP();
+    
+	public List<ProductWithBLOBs> getXP();
+	
+	public List<ProductWithBLOBs> getQG();
+	
+	public List<ProductWithBLOBs> getTG();
+	
 }

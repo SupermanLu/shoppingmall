@@ -5,17 +5,44 @@
 <%@ include file="../common/table.jsp"%>
 <div id="toolbar">
 	<div class="btn-group">
+		<button class="btn btn-default" id="exportExcel">
+			<i class="glyphicon glyphicon-export">导出Excel</i>
+		</button>
+		<button class="btn btn-default" id="search">
+			<i class="glyphicon glyphicon-search">搜索</i>
+		</button>
+	</div>
+	<div class="layui-form">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">买家用户名</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="searchname" placeholder="">
+				</div>
+				<label class="layui-form-label">订单编号</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="searchno"
+						placeholder="">
+				</div>
+				<label class="layui-form-label">支付时间</label>
+				<div class="layui-input-inline">
+					<input type="text" name="start_time" class="layui-input"
+						id="start_time" placeholder="开始时间(支付时间)">
+				</div>
+				<div class="layui-input-inline">
+                        <input
+						type="text" name="end_time" class="layui-input" id="end_time"
+						placeholder="结束时间(支付时间)">
+				</div>
+				
+			</div>
+			
+			<div class="layui-inline">		
+				<label class="layui-form-label" id="total" style="width:auto;">交易总额:0</label>
+			</div>
 
+		</div>
 	</div>
-	<!--
-	<div class="form-group">
-		 <label class="control-label">性别：</label> <label class="radio-inline">
-			<input type="radio" name="sex" value="男" /> 男
-		</label> <label class="radio-inline"> <input type="radio" name="sex"
-			value="女" /> 女
-		</label> 
-	</div>
-	-->
 </div>
 <style>
 .layui-upload-img{
@@ -32,17 +59,46 @@
 	var isAdd = true;
 	var dataid = '';
 	var path='';
-	layui.use('form', function() {
+	layui.use([ 'form', 'laydate' ], function() {
 		form = layui.form;
-		
-		
-	});
-	
-	
+		var laydate = layui.laydate;
+		//日期时间范围
+		var nowTime = new Date().valueOf();
+		var max = null;
 
-	var $objectTable = getTable(
-			$('#tableCommon'),
-			[
+		var start = laydate.render({
+			elem : '#start_time',
+			type : 'datetime',
+			btns : [ 'clear', 'confirm' ],
+			done : function(value, date) {
+				endMax = end.config.max;
+				end.config.min = date;
+				end.config.min.month = date.month - 1;
+			}
+		});
+		var end = laydate.render({
+			elem : '#end_time',
+			type : 'datetime',
+			done : function(value, date) {
+				if ($.trim(value) == '') {
+					var curDate = new Date();
+					date = {
+						'date' : curDate.getDate(),
+						'month' : curDate.getMonth() + 1,
+						'year' : curDate.getFullYear()
+					};
+				}
+				start.config.max = date;
+				start.config.max.month = date.month - 1;
+			}
+		});
+
+	});
+
+	var $objectTable = $('#tableCommon')
+	.bootstrapTable(
+			{
+				columns : [
 					{
 						align : 'center',
 						title : '序号',
@@ -98,7 +154,32 @@
 							return "<button class='btn btn-warning item-detail' data-id='"
 					+ value + "'> 详情 </button>";
 						}
-					} ], '${domain}/order/getOrder', {});
+					} ],
+				url : '${domain}/order/getOrder',
+				search : false,
+				showToggle : false,
+				cardView : false,
+				pagination : true,
+				sidePagination : 'server',
+				pageList : [ 5, 10, 20, 50 ],
+				queryParams : function(params) {
+					params.customname = $('#searchname').val();
+					params.searchno = $('#searchno').val();
+					params.begintime = $('#start_time').val();
+					params.endtime = $('#end_time').val();
+					return params;
+				}
+			});
+	
+	$.ajax({
+		url : "${domain}/order/selectTotal",
+		type : "POST",
+		contentType : "application/json",
+		success : function(data) {
+			$('#total').html('交易总额:'+data.total+'元');
+		}
+	});
+	
 
 	initListener();
 
@@ -193,6 +274,12 @@
 		$('#export').on('click', function() {
 			$('#myfile').click();
 		});
+		
+		$('#exportExcel').on('click', function() {
+			window.location.href="${domain}/order/export";
+		});
+		
+		
 		
 		$('body').on('click','#uploadBtn',function(){
 			console.log(1);
@@ -293,6 +380,11 @@
 					}
 				}
 			});
+		})
+		
+		
+		$('body').on('click', '#search', function() {
+			$objectTable.bootstrapTable('refresh');
 		})
 		
 		

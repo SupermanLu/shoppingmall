@@ -3,6 +3,7 @@ package com.shoppingmall.service;
 import java.util.List;
 
 import com.shoppingmall.model.Order;
+import com.shoppingmall.model.Score;
 
 public interface OrderService {
 	public Order getObjectById(String objectid);
@@ -21,4 +22,5 @@ public interface OrderService {
 	
 	public int deleteAll();
 	
+	public List<Order> selectListByCid(String customid);
 }

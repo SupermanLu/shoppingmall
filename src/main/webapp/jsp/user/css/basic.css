@@ -244,7 +244,7 @@ a.gray_tips {
     float:left
 }
 .nav li {
-    float:left
+    
 }
 .nav .per {
     position:relative;
@@ -259,7 +259,7 @@ a.gray_tips {
     -moz-transition:all .3s;
     -webkit-transition:all .3s
 }
-.nav .on .per,.nav li:hover .per {
+.nav .on .per,.nav .nav-item:hover .per {
     color:#fff;
     border-color:#fff
 }
@@ -281,7 +281,7 @@ a.gray_tips {
     -moz-transition:all .3s;
     -webkit-transition:all .3s
 }
-.nav li:hover .per i,.nav .on .per i {
+.nav .nav-item:hover .per i,.nav .on .per i {
     width:100%
 }
 .header .down_list {
@@ -342,6 +342,13 @@ a.gray_tips {
     width:70px;
     height:50px;
     background:url(../images/icon3-2.png) no-repeat center center
+}
+
+.header .qq {
+    display:block;
+    width:70px;
+    height:50px;
+    background:url(../images/qq.png) no-repeat center center
 }
 .header .go_cart .num {
     display:inline-block;
@@ -420,12 +427,52 @@ a.gray_tips {
     display:block;
     padding:25px 0 35px;
     font-weight:normal;
-    white-space:nowrap;
-    overflow:hidden
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
+
+.pro_list{
+	padding:10px;
+}
+
+.pro_list .tab{
+	padding-bottom:10px;
+	margin-bottom:10px;
+	border-bottom:1px solid #eee;
+}
+
+.pro_list .hot{
+	color: #fff;
+    background-color: #2e2e30;
+}
+
+.pro_list .tab a{
+	padding:10px;
+	text-transform:uppercase;
+    transition:all .6s;
+    -moz-transition:all .6s;
+    -webkit-transition:all .6s
+}
+
+.pro_list .tab a:hover{
+	color: #fff;
+    background-color: #2e2e30;
+}
+
+.pro_list ul,.pro_list li{
+	list-style:none;
+}
+
+.each_product .pro_name{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
 .price_wrap {
     display:inline-block;
-    width:200px;
+    width:250px;
     height:30px;
     line-height:30px;
     padding:5px 0;
@@ -436,7 +483,7 @@ a.gray_tips {
 .price_wrap .price {
     float:left;
     display:inline-block;
-    width:90px;
+    width:140px;
     border-right:1px solid #d4d4d4
 }
 .price_wrap .shop_now {
@@ -446,7 +493,7 @@ a.gray_tips {
     height:30px
 }
 .index_show {
-    padding:55px 0 80px
+    padding:10px 0 80px
 }
 .index_show .line_word {
     display:inline-block;
@@ -623,7 +670,7 @@ a.gray_tips {
 }
 .footer .bottom_menu .each_one {
     float:left;
-    width:31.666%;
+    width: 15%;
     margin-left:2.5%
 }
 .footer .bottom_menu .each_one:first-child {
@@ -770,7 +817,7 @@ a.gray_tips {
 .summary-product-list .each_product {
     float:left;
     width:25%;
-    padding:45px 0 80px;
+    padding: 15px 0 30px;
     text-align:center
 }
 .summary-product-list .each_product .picture {

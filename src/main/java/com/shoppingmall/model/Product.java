@@ -314,4 +314,37 @@ public class Product {
 	public void setParentcatename(String parentcatename) {
 		this.parentcatename = parentcatename;
 	}
+	
+	
+	private String begintime;
+	
+	private String endtime;
+	
+	public String getBegintime() {
+		return begintime;
+	}
+
+	public void setBegintime(String begintime) {
+		this.begintime = begintime;
+	}
+
+	public String getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
+	}
+	
+	private String searchno;
+
+	public String getSearchno() {
+		return searchno;
+	}
+
+	public void setSearchno(String searchno) {
+		this.searchno = searchno;
+	}
+
+	
 }

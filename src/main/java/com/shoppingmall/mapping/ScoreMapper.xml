@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.ScoreMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Score">
+    <id column="scoreid" jdbcType="VARCHAR" property="scoreid" />
+    <result column="customid" jdbcType="VARCHAR" property="customid" />
+    <result column="oid" jdbcType="VARCHAR" property="oid" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="operatetime" jdbcType="VARCHAR" property="operatetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    scoreid, customid, oid, score, type,operatetime
+  </sql>
+  <sql id="Base_Column_List1">
+    a.scoreid, a.customid, a.oid, a.score, a.type,a.operatetime,b.pname,b.preprice,b.num
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from score
+    where scoreid = #{scoreid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from score
+    where scoreid = #{scoreid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Score">
+    insert into score (scoreid, customid, oid, 
+      score, type,operatetime)
+    values (#{scoreid,jdbcType=VARCHAR}, #{customid,jdbcType=VARCHAR}, #{oid,jdbcType=VARCHAR}, 
+      #{score,jdbcType=DECIMAL}, #{type,jdbcType=VARCHAR},#{operatetime,jdbcType=VARCHAR}))
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Score">
+    insert into score
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="scoreid != null">
+        scoreid,
+      </if>
+      <if test="customid != null">
+        customid,
+      </if>
+      <if test="oid != null">
+        oid,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="operatetime != null">
+        operatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="scoreid != null">
+        #{scoreid,jdbcType=VARCHAR},
+      </if>
+      <if test="customid != null">
+        #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null">
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="operatetime != null">
+        #{operatetime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Score">
+    update score
+    <set>
+      <if test="customid != null">
+        customid = #{customid,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null">
+        oid = #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="operatetime != null">
+        operatetime = #{operatetime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where scoreid = #{scoreid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Score">
+    update score
+    set customid = #{customid,jdbcType=VARCHAR},
+      oid = #{oid,jdbcType=VARCHAR},
+      score = #{score,jdbcType=DECIMAL},
+      type = #{type,jdbcType=VARCHAR},
+      operatetime = #{operatetime,jdbcType=VARCHAR}
+    where scoreid = #{scoreid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByCid"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from score
+    where customid = #{customid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectListByCid" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		from score a left join orderlist b on a.oid=b.orderid
+		where a.customid=#{customid,jdbcType=VARCHAR}
+		order by operatetime desc
+	</select>
+</mapper>

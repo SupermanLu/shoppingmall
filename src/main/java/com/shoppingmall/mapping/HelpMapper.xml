@@ -1,83 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shoppingmall.dao.HelpMapper">
-  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Help">
-    <id column="helpid" jdbcType="VARCHAR" property="helpid" />
-    <result column="helptype" jdbcType="VARCHAR" property="helptype" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.shoppingmall.model.Help">
-    <result column="helpcontent" jdbcType="LONGVARCHAR" property="helpcontent" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    helpid, helptype
-  </sql>
-  <sql id="Blob_Column_List">
-    helpcontent
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from help
-    where helpid = #{helpid,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from help
-    where helpid = #{helpid,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.shoppingmall.model.Help">
-    insert into help (helpid, helptype, helpcontent
-      )
-    values (#{helpid,jdbcType=VARCHAR}, #{helptype,jdbcType=VARCHAR}, #{helpcontent,jdbcType=LONGVARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.shoppingmall.model.Help">
-    insert into help
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="helpid != null">
-        helpid,
-      </if>
-      <if test="helptype != null">
-        helptype,
-      </if>
-      <if test="helpcontent != null">
-        helpcontent,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="helpid != null">
-        #{helpid,jdbcType=VARCHAR},
-      </if>
-      <if test="helptype != null">
-        #{helptype,jdbcType=VARCHAR},
-      </if>
-      <if test="helpcontent != null">
-        #{helpcontent,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Help">
-    update help
-    <set>
-      <if test="helptype != null">
-        helptype = #{helptype,jdbcType=VARCHAR},
-      </if>
-      <if test="helpcontent != null">
-        helpcontent = #{helpcontent,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where helpid = #{helpid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.shoppingmall.model.Help">
-    update help
-    set helptype = #{helptype,jdbcType=VARCHAR},
-      helpcontent = #{helpcontent,jdbcType=LONGVARCHAR}
-    where helpid = #{helpid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Help">
-    update help
-    set helptype = #{helptype,jdbcType=VARCHAR}
-    where helpid = #{helpid,jdbcType=VARCHAR}
-  </update>
+	<resultMap id="BaseResultMap"
+		type="com.shoppingmall.model.Help">
+		<id column="helpid" jdbcType="VARCHAR" property="helpid" />
+		<result column="helpname" jdbcType="VARCHAR"
+			property="helpname" />
+		<result column="helppid" jdbcType="VARCHAR" property="helppid" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.shoppingmall.model.Help">
+		<result column="helpcontent" jdbcType="LONGVARCHAR"
+			property="helpcontent" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		helpid, helpname, helppid
+	</sql>
+	<sql id="Base_Column_List1">
+		a.helpid, a.helpname, a.helppid,b.helpname as parenthelpname
+	</sql>
+	<sql id="Blob_Column_List1">
+		a.helpcontent
+	</sql>
+	<sql id="Blob_Column_List">
+		helpcontent
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List1" />
+		,
+		<include refid="Blob_Column_List1" />
+		from help a left join help b on a.helppid=b.helpid
+		where a.helpid = #{helpid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from help
+		where helpid = #{helpid,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.shoppingmall.model.Help">
+		insert into help (helpid, helpname, helppid,
+		helpcontent)
+		values (#{helpid,jdbcType=VARCHAR}, #{helpname,jdbcType=VARCHAR},
+		#{helppid,jdbcType=VARCHAR},
+		#{helpcontent,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.shoppingmall.model.Help">
+		insert into help
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="helpid != null">
+				helpid,
+			</if>
+			<if test="helpname != null">
+				helpname,
+			</if>
+			<if test="helppid != null">
+				helppid,
+			</if>
+			<if test="helpcontent != null">
+				helpcontent,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="helpid != null">
+				#{helpid,jdbcType=VARCHAR},
+			</if>
+			<if test="helpname != null">
+				#{helpname,jdbcType=VARCHAR},
+			</if>
+			<if test="helppid != null">
+				#{helppid,jdbcType=VARCHAR},
+			</if>
+			<if test="helpcontent != null">
+				#{helpcontent,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.shoppingmall.model.Help">
+		update help
+		<set>
+			<if test="helpname != null">
+				helpname = #{helpname,jdbcType=VARCHAR},
+			</if>
+			<if test="helppid != null">
+				helppid = #{helppid,jdbcType=VARCHAR},
+			</if>
+			<if test="helpcontent != null">
+				helpcontent = #{helpcontent,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where helpid = #{helpid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs"
+		parameterType="com.shoppingmall.model.Help">
+		update help
+		set helpname = #{helpname,jdbcType=VARCHAR},
+		helppid = #{helppid,jdbcType=VARCHAR},
+		helpcontent = #{helpcontent,jdbcType=LONGVARCHAR}
+		where helpid = #{helpid,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.shoppingmall.model.Help">
+		update help
+		set helpname = #{helpname,jdbcType=VARCHAR},
+		helppid = #{helppid,jdbcType=VARCHAR}
+		where helpid = #{helpid,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		,
+		<include refid="Blob_Column_List1" />
+		from help a left join help b on a.helppid=b.helpid
+	</select>
+
+
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		,
+		<include refid="Blob_Column_List1" />
+		from help a left join help b on a.helppid=b.helpid
+		where
+		a.helpname like binary '%${search}%'
+		limit
+		#{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		,
+		<include refid="Blob_Column_List1" />
+		from help a left join help b on a.helppid=b.helpid
+		where
+		a.helpname like binary '%${search}%'
+	</select>
+
+
+	<select id="selectOption" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from help
+		where helppid=#{helppid,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteAll">
+		delete from help
+	</delete>
 </mapper>

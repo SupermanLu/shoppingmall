@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.RuleMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Rule">
+    <id column="ruleid" jdbcType="VARCHAR" property="ruleid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.shoppingmall.model.Rule">
+    <result column="rulecontent" jdbcType="LONGVARCHAR" property="rulecontent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ruleid
+  </sql>
+  <sql id="Blob_Column_List">
+    rulecontent
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from rule
+    where ruleid = #{ruleid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from rule
+    where ruleid = #{ruleid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Rule">
+    insert into rule (ruleid, rulecontent)
+    values (#{ruleid,jdbcType=VARCHAR}, #{rulecontent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Rule">
+    insert into rule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ruleid != null">
+        ruleid,
+      </if>
+      <if test="rulecontent != null">
+        rulecontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ruleid != null">
+        #{ruleid,jdbcType=VARCHAR},
+      </if>
+      <if test="rulecontent != null">
+        #{rulecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Rule">
+    update rule
+    <set>
+      <if test="rulecontent != null">
+        rulecontent = #{rulecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ruleid = #{ruleid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.shoppingmall.model.Rule">
+    update rule
+    set rulecontent = #{rulecontent,jdbcType=LONGVARCHAR}
+    where ruleid = #{ruleid,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		 ,
+    	<include refid="Blob_Column_List" />
+		from rule
+	</select>
+</mapper>

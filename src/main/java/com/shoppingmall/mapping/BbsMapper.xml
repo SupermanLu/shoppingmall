@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoppingmall.dao.BbsMapper">
+  <resultMap id="BaseResultMap" type="com.shoppingmall.model.Bbs">
+    <id column="bbsid" jdbcType="VARCHAR" property="bbsid" />
+    <result column="cid" jdbcType="VARCHAR" property="cid" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="bbstype" jdbcType="VARCHAR" property="bbstype" />
+    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="bbscontent" jdbcType="VARCHAR" property="bbscontent" />
+    <result column="bbstime" jdbcType="VARCHAR" property="bbstime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bbsid, cid, email, bbstype, subject, bbscontent, bbstime, status
+  </sql>
+  <sql id="Base_Column_List1">
+    a.bbsid, a.cid, a.email, a.bbstype, a.subject, a.bbscontent, a.bbstime, a.status,b.customname
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bbs
+    where bbsid = #{bbsid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bbs
+    where bbsid = #{bbsid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.shoppingmall.model.Bbs">
+    insert into bbs (bbsid, cid, email, 
+      bbstype, subject, bbscontent, 
+      bbstime, status)
+    values (#{bbsid,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{bbstype,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, #{bbscontent,jdbcType=VARCHAR}, 
+      #{bbstime,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoppingmall.model.Bbs">
+    insert into bbs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bbsid != null">
+        bbsid,
+      </if>
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="bbstype != null">
+        bbstype,
+      </if>
+      <if test="subject != null">
+        subject,
+      </if>
+      <if test="bbscontent != null">
+        bbscontent,
+      </if>
+      <if test="bbstime != null">
+        bbstime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bbsid != null">
+        #{bbsid,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="bbstype != null">
+        #{bbstype,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="bbscontent != null">
+        #{bbscontent,jdbcType=VARCHAR},
+      </if>
+      <if test="bbstime != null">
+        #{bbstime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoppingmall.model.Bbs">
+    update bbs
+    <set>
+      <if test="cid != null">
+        cid = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="bbstype != null">
+        bbstype = #{bbstype,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        subject = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="bbscontent != null">
+        bbscontent = #{bbscontent,jdbcType=VARCHAR},
+      </if>
+      <if test="bbstime != null">
+        bbstime = #{bbstime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bbsid = #{bbsid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoppingmall.model.Bbs">
+    update bbs
+    set cid = #{cid,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      bbstype = #{bbstype,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      bbscontent = #{bbscontent,jdbcType=VARCHAR},
+      bbstime = #{bbstime,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where bbsid = #{bbsid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		from bbs a left join custom b on a.cid=b.customid
+		order by a.bbstime desc
+	</select>
+	
+	
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		from bbs a left join custom b on a.cid=b.customid
+		where  a.subject like binary '%${search}%' or a.email like binary '%${search}%'  or a.bbscontent like binary '%${search}%'
+		order by a.bbstime desc
+		limit #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}		
+	</select>
+	<select id="selectCount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List1" />
+		from bbs a left join custom b on a.cid=b.customid
+		where  a.subject like binary '%${search}%' or a.email like binary '%${search}%'  or a.bbscontent like binary '%${search}%'
+		order by a.bbstime desc
+	</select>
+	
+	
+	<delete id="deleteAll">
+		delete from bbs
+	</delete>
+</mapper>

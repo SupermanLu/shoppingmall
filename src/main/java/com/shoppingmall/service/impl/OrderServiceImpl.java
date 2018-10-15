@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.shoppingmall.dao.OrderMapper;
 import com.shoppingmall.model.Order;
+import com.shoppingmall.model.Score;
 import com.shoppingmall.service.OrderService;
 
 
@@ -57,6 +58,9 @@ public class OrderServiceImpl implements OrderService {
 			return this.objectDao.deleteAll();
 		}
 		
+		public List<Order> selectListByCid(String customid){
+			return this.objectDao.selectListByCid(customid);
+		}
 
 
 }

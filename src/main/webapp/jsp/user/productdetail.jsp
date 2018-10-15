@@ -20,48 +20,19 @@
 								<div
 									class="swiper-container swiper-container-horizontal swiper-container-3d swiper-container-coverflow"
 									style="cursor: -webkit-grab;">
+										
 									<div class="swiper-wrapper"
 										style="transform: translate3d(30px, 0px, 0px); transition-duration: 0ms;">
-										<div class="swiper-slide swiper-slide-prev"
-											style="transform: translate3d(0px, 0px, -100px) rotateX(0deg) rotateY(0deg); z-index: 0; transition-duration: 0ms;">
+										{{#pimgs}}
+										<div class="swiper-slide {{cls}}">
 											<img
-												src="{{logourl}}"
+												src="{{url}}"
 												width="640px" height="640px"
 												title="{{pname}}"
-												alt="{{pname}}" layer-index="0">
+												alt="{{pname}}" layer-index="{{index}}">
 										</div>
-										<div class="swiper-slide swiper-slide-active"
-											style="transform: translate3d(0px, 0px, 0px) rotateX(0deg) rotateY(0deg); z-index: 1; transition-duration: 0ms;">
-											<img
-												src="{{logourl}}"
-												width="640px" height="640px"
-												title="{{pname}}"
-												alt="{{pname}}" layer-index="1">
-										</div>
-										<div class="swiper-slide swiper-slide-next"
-											style="transform: translate3d(0px, 0px, -100px) rotateX(0deg) rotateY(0deg); z-index: 0; transition-duration: 0ms;">
-											<img
-												src="{{logourl}}"
-												width="640px" height="640px"
-												title="{{pname}}"
-												alt="{{pname}}" layer-index="2">
-										</div>
-										<div class="swiper-slide"
-											style="transform: translate3d(0px, 0px, -200px) rotateX(0deg) rotateY(0deg); z-index: -1; transition-duration: 0ms;">
-											<img
-												src="{{logourl}}"
-												width="640px" height="640px"
-												title="{{pname}}"
-												alt="{{pname}}" layer-index="3">
-										</div>
-										<div class="swiper-slide"
-											style="transform: translate3d(0px, 0px, -300px) rotateX(0deg) rotateY(0deg); z-index: -2; transition-duration: 0ms;">
-											<img
-												src="{{logourl}}"
-												width="640px" height="640px"
-												title="{{pname}}"
-												alt="{{pname}}" layer-index="4">
-										</div>
+										{{/pimgs}}
+										
 									</div>
 									<!-- Add Pagination -->
 									<div class="swiper-pagination"></div>
@@ -73,17 +44,52 @@
 							
 						</div>
 						<div class="product_addtocart_form clearfix">
+							<div style="float:left;width: 15%;margin-left:4%;text-align:center;">
+								<div style="border-color: transparent;width: auto;height:52px;line-height:58px;padding-left:10px;; color: #fff;  background-color: #479e7a;transition: all .6s;">
+									<span  class="checkbox1" data-org_val="39" id="other">
+									  <!--  <input type="checkbox" name="checkbox" id="chk"/>
+										 <label></label>-->
+										
+									   <span style="padding-right: 15px; width: auto; font-size: 16px;" class="price">
+										 库存:{{stock}}                                </span>
+									</span>
+								</div>
+							</div>
 
-	
+							<div style="float:left;width: 15%;margin-left:4%;text-align:center;">
+								<div style="border-color: transparent;width: auto;height:52px;line-height:58px;padding-left:10px;; color: #fff;  background-color: #479e7a;transition: all .6s;">
+									<span  class="checkbox1" data-org_val="39" id="other">
+									  <!--  <input type="checkbox" name="checkbox" id="chk"/>
+										 <label></label>-->
+										
+									   <span style="padding-right: 15px; width: auto; font-size: 16px;" class="price">
+									销量:{{sales}}                                </span>
+									</span>
+								</div>
+							</div>
+
+							<div style="float:left;width: 15%;margin-left:4%;text-align:center;">
+								<div style="border-color: transparent;width: auto;height:52px;line-height:58px;padding-left:10px;; color: #fff;  background-color: #479e7a;transition: all .6s;">
+									<span  class="checkbox1" data-org_val="39" id="other">
+									  <!--  <input type="checkbox" name="checkbox" id="chk"/>
+										 <label></label>-->
+										 
+									   <span style="padding-right: 15px; width: auto; font-size: 16px;" class="price">
+										原价:<span style="text-decoration:line-through;">￥{{originalprice}}</span>                                </span>
+									</span>
+									
+								</div>
+							</div>
+
 							<div class="shopnow_wrap">
 								<div class="price_wrap">
 									<div class="checkout_before clearfix">
-										<span data-org_val="229" id="total" class="price"> ¥{{discountedprice}}
+										<span data-org_val="229" id="total" class="price">¥{{discountedprice}}
 										</span>
 										<div class="shop_now_btns">
 											<a href="javascript:void (0);"
 												onclick="addtocart('{{productid}}')" class="shop_now btn-label">
-												<span>SHOP NOW</span><br> <span>SHOP NOW</span>
+												<span>马上兑换</span><br> <span>马上兑换</span>
 											</a>
 										</div>
 									</div>
@@ -139,6 +145,24 @@
 			</script>
 		</div>
 
+		<div class="bd goods_list layouts">
+			<div class="tab_title">
+				<h2>
+					<span class="icon"></span>商品咨询
+				</h2>
+			</div>
+			<p class="promInfo clearfix">
+				<span class="span1"> <i class="red">温馨提示：</i><br>
+					因厂家更改产品、产地等不作提前通知，且每位咨询者购买情况、提问时间等不同。回复的内容仅在一定的时期内有参考意义，若由此给您带来不便请多多谅解，敬请谅解，谢谢！
+				</span> <span class="span2"> <a class="item_message btn-css3"
+					href="tencent://message/?uin=863779999&amp;Site=在线QQ&amp;Menu=yes"
+					target="_blank">咨询客服</a> <br>
+				</span>
+			</p>
+			<div id="message_wrapper" style="padding: 0">
+				<p class="empty">暂时还没有任何用户咨询</p>
+			</div>
+		</div>
 
 		<div id="myModals" class="hide"></div>
 
@@ -150,6 +174,79 @@
 	<!--Others-->
 
 	<style>
+.bd {
+	border: none;
+	padding: 0;
+	overflow: hidden;
+	background: transparent;
+	padding: 10px;
+	border: 1px solid #eee;
+}
+
+.tab_title {
+	background: #f6f6f6;
+	height: 30px;
+	line-height: 30px;
+	padding-left: 10px;
+	margin-bottom: 10px;
+	padding-top: 7px;
+	padding-left: 10px;
+}
+
+.promInfo {
+	background: #F8F9F9;
+	border: 1px solid #eee;
+	display: block;
+	height: 100%;
+	margin: 10px 0 0;
+	overflow: hidden;
+	padding: 15px 18px;
+}
+
+.promInfo span {
+	float: left;
+	height: 100px;
+	overflow: hidden;
+	color: #666;
+}
+
+.span1 {
+	border-right: 1px solid #eee;
+	padding: 0 25px 0 0;
+	width: calc(100% - 158px);
+}
+
+.span2 {
+	padding: 7px 0 0 24px;
+	text-align: center;
+	width: 108px;
+}
+
+.empty {
+	font-family: 'Microsoft JhengHei', 'Microsoft YaHei', '微软雅黑', '黑体';
+	display: block;
+	padding: 50px 0;
+	color: #999;
+	font-size: 1.5em;
+	font-weight: normal;
+	text-align: center;
+}
+
+.btn-css3 {
+	background-color: #f70;
+	border: 1px solid #eb7207;
+	border-radius: 3px;
+	color: #FFFFFF;
+	display: inline-block;
+	font-size: 100%;
+	overflow: hidden;
+	padding: 5px 12px;
+	vertical-align: middle;
+	height: 16px;
+	line-height: 16px;
+	margin-top:10px;
+}
+
 .sigma-middle-line:before {
 	content: '';
 	display: block;
@@ -169,7 +266,6 @@
 }
 </style>
 	<script>
-		
 		$(function() {
 			$(".product_options .option").click(
 					function() {
@@ -240,52 +336,73 @@
 				content : html
 			});
 		});
-		
-		$.ajax({
-			url:'${domain}/product/getProductbyid',
-			type:'post',
-			contentType:'application/json',
-			data:JSON.stringify({
-				productid:GetQueryString('pid')
-			}),
-			success:function(res){
-				console.log(res);
-				res.descption=unescape(res.descption);
-				var innerHtml=Mustache.render($('#pagetemplate').html(),res);
-				$('#pagecontrainer').html(innerHtml);
-				
-				layer.photos({
-					photos : '#view1',
-					closeBtn : 1,
-					anim : -1,
-					shade : .6
-				});
-				layer.photos({
-					photos : '#view2',
-					closeBtn : 1,
-					anim : -1,
-					shade : .6
-				});
-				var swiper = new Swiper('.each_product_show .swiper-container', {
-					nextButton : '.each_product_show .swiper-button-next',
-					prevButton : '.each_product_show .swiper-button-prev',
-					effect : 'coverflow',
-					grabCursor : true,
-					centeredSlides : true,
-					slidesPerView : 'auto',
-					initialSlide : 1,
-					coverflow : {
-						rotate : 0,
-						stretch : 0,
-						depth : 100,
-						modifier : 1,
-						slideShadows : false
-					}
-				});
 
-				
-			}
-		})
+		$
+				.ajax({
+					url : '${domain}/product/getProductbyid',
+					type : 'post',
+					contentType : 'application/json',
+					data : JSON.stringify({
+						productid : GetQueryString('pid')
+					}),
+					success : function(res) {
+						console.log(res);
+						res.descption = unescape(res.descption);
+						var pimgurl = res.pimgurl;
+						if (pimgurl == null) {
+							pimgurl = '';
+						}
+						var pimgs = pimgurl.split(',');
+						var pimglist = [];
+						for ( var i in pimgs) {
+							var img = {
+								url : pimgs[i],
+								cls : (i == 0 ? 'swiper-slide-active'
+										: (i == 1 ? 'swiper-slide-next' : '')),
+								pname : res.pname,
+								index : i
+							}
+							pimglist.push(img);
+						}
+
+						res.pimgs = pimglist;
+						var innerHtml = Mustache.render($('#pagetemplate')
+								.html(), res);
+						$('#pagecontrainer').html(innerHtml);
+
+						layer.photos({
+							photos : '#view1',
+							closeBtn : 1,
+							anim : -1,
+							shade : .6
+						});
+						layer.photos({
+							photos : '#view2',
+							closeBtn : 1,
+							anim : -1,
+							shade : .6
+						});
+						var swiper = new Swiper(
+								'.each_product_show .swiper-container',
+								{
+									nextButton : '.each_product_show .swiper-button-next',
+									prevButton : '.each_product_show .swiper-button-prev',
+									effect : 'coverflow',
+									grabCursor : true,
+									centeredSlides : true,
+									slidesPerView : 'auto',
+									initialSlide : 1,
+									coverflow : {
+										rotate : 0,
+										stretch : 0,
+										depth : 100,
+										modifier : 1,
+										slideShadows : false
+									}
+								});
+
+					}
+				})
 	</script>
 
 

@@ -88,7 +88,10 @@ public class ProductController {
 		ProductWithBLOBs object = new ProductWithBLOBs();
 		object.setLimit(Integer.parseInt(request.getParameter("limit")));
 		object.setOffset(Integer.parseInt(request.getParameter("offset")));
-		object.setSearch(URLDecoder.decode(request.getParameter("search").toString(), "UTF-8"));
+		object.setPname(request.getParameter("pname"));
+		object.setSearchno(request.getParameter("searchno"));
+		object.setBegintime(request.getParameter("begintime").equals("")?"1900-01-01 00:00:00":request.getParameter("begintime"));
+		object.setEndtime(request.getParameter("endtime").equals("")?"2900-01-01 00:00:00":request.getParameter("endtime"));
 		List<ProductWithBLOBs> objectList = this.productService.selectList(object);
 		List<ProductWithBLOBs> objectListTotal = this.productService.selectCount(object);
 		CommonList list = new CommonList();
@@ -175,6 +178,9 @@ public class ProductController {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			object.setProductid(UUID.randomUUID().toString().toLowerCase());
 			object.setUpdatetime(sdf.format(new Date()));
+			if(object.getPostage()==null||object.getPostage().equals("")) {
+				object.setPostage(new BigDecimal(0));
+			}
 			object.setSales(0);
 			this.productService.insert(object);
 		} catch (Exception e) {
@@ -249,6 +255,44 @@ public class ProductController {
 	public List<ProductWithBLOBs> getHot(HttpServletRequest request,HttpSession session) throws UnsupportedEncodingException{
 		return this.productService.getHot();
 	}
+	
+	@RequestMapping(value = "getTJ")  
+	@ResponseBody
+	public List<ProductWithBLOBs> getTJ(HttpServletRequest request,HttpSession session) throws UnsupportedEncodingException{
+		return this.productService.getTJ();
+	}
+	
+	@RequestMapping(value = "getJPTJ")  
+	@ResponseBody
+	public List<ProductWithBLOBs> getJPTJ(HttpServletRequest request,HttpSession session) throws UnsupportedEncodingException{
+		return this.productService.getJPTJ();
+	}
+	
+	@RequestMapping(value = "getRXJP")  
+	@ResponseBody
+	public List<ProductWithBLOBs> getRXJP(HttpServletRequest request,HttpSession session) throws UnsupportedEncodingException{
+		return this.productService.getRXJP();
+	}
+	
+	@RequestMapping(value = "getXP")  
+	@ResponseBody
+	public List<ProductWithBLOBs> getXP(HttpServletRequest request,HttpSession session) throws UnsupportedEncodingException{
+		return this.productService.getXP();
+	}
+	
+	@RequestMapping(value = "getQG")  
+	@ResponseBody
+	public List<ProductWithBLOBs> getQG(HttpServletRequest request,HttpSession session) throws UnsupportedEncodingException{
+		return this.productService.getQG();
+	}
+	
+	@RequestMapping(value = "getTG")  
+	@ResponseBody
+	public List<ProductWithBLOBs> getTG(HttpServletRequest request,HttpSession session) throws UnsupportedEncodingException{
+		return this.productService.getTG();
+	}
+	
+	
 	
 	
 

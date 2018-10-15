@@ -252,9 +252,9 @@
   
     <select id="selectAll" resultMap="BaseResultMap">
 		select
-		<include refid="Base_Column_List" />
-		from orderlist
-		order by orderno desc
+		<include refid="Base_Column_List1" />
+		from orderlist a left join custom b on a.customid=b.customid
+		order by a.orderno desc
 	</select>
 	
 	
@@ -263,7 +263,7 @@
 		select
 		<include refid="Base_Column_List1" />
 		from orderlist a left join custom b on a.customid=b.customid
-		where b.customname like binary '%${search}%' and a.orderno like binary '%${search}%' and a.paytime like binary '%${search}%'
+		<![CDATA[where  b.customname like binary '%${customname}%' and a.orderno like binary '%${searchno}%' and a.paytime>=#{begintime,jdbcType=VARCHAR}  and a.paytime<=#{endtime,jdbcType=VARCHAR}]]>
 		order by a.orderno desc
 		limit #{limit,jdbcType=INTEGER} offset #{offset,jdbcType=INTEGER}		
 	</select>
@@ -271,11 +271,17 @@
 		select
 		<include refid="Base_Column_List1" />
 		from orderlist a left join custom b on a.customid=b.customid
-		where b.customname like binary '%${search}%' and a.orderno like binary '%${search}%' and a.paytime like binary '%${search}%'
+		<![CDATA[where  b.customname like binary '%${customname}%' and a.orderno like binary '%${searchno}%' and a.paytime>=#{begintime,jdbcType=VARCHAR}  and a.paytime<=#{endtime,jdbcType=VARCHAR}]]>
 		order by a.orderno desc
 	</select>
 	
-	
+	<select id="selectListByCid" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from orderlist 
+		where customid=#{customid,jdbcType=VARCHAR}
+		order by ordertime desc
+	</select>
 	
 	<delete id="deleteAll">
 		delete from orderlist

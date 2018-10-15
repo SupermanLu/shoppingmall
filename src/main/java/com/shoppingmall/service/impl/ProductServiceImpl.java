@@ -65,6 +65,31 @@ public class ProductServiceImpl implements ProductService {
 		public List<ProductWithBLOBs> getHot(){
 			return this.objectDao.getHot();
 		}
+		
+		public List<ProductWithBLOBs> getTJ(){
+			return this.objectDao.getTJ();
+		}
+	    
+		public List<ProductWithBLOBs> getJPTJ(){
+			return this.objectDao.getJPTJ();
+		}
+	    
+		public List<ProductWithBLOBs> getRXJP(){
+			return this.objectDao.getRXJP();
+		}
+	    
+		public List<ProductWithBLOBs> getXP(){
+			return this.objectDao.getXP();
+		}
+		
+		public List<ProductWithBLOBs> getQG(){
+			return this.objectDao.getQG();
+		}
+		
+		
+		public List<ProductWithBLOBs> getTG(){
+			return this.objectDao.getTG();
+		}
 	
 
 }

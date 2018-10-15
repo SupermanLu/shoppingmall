@@ -6,33 +6,22 @@
 	<div class="top_footer">
 		<div class="layouts">
 
-			<div class="bottom_menu clearfix">
+			<div class="bottom_menu clearfix" id="helplist">
+				<script id="helptemplate" type="text/x-tpl">
+				{{#help}}
 				<div class="each_one">
 					<dl>
-						<dt>个性化服务</dt>
+						<dt>{{text}}</dt>
+						{{#helplist}}
 						<dd>
-							<a href="javascript:;" id="myinfo">我的账户</a>
+							<a href="javascript:;" class="helpitem" data-id="{{helpid}}">{{helpname}}</a>
 						</dd>
+						{{/helplist}}
 					</dl>
 				</div>
-				<div class="each_one">
-					<dl id="friendlink">
-						<dt>友情链接</dt>
-						<dd>
-							<a href="https://www.wellymerck.com/en/terms-conditions">Terms
-								&amp; conditions</a>
-						</dd>
-						<dd>
-							<a href="https://www.wellymerck.com/en/privacy-policy">Privacy
-								Policy</a>
-						</dd>
-						<dd>
-							<a href="https://www.wellymerck.com/en/Warranty-and-Returns">Warranty
-								&amp; Returns</a>
-						</dd>
-					</dl>
-				</div>
-
+				{{/help}}
+				</script>
+				
 			</div>
 
 		</div>
@@ -41,22 +30,7 @@
 </div>
 
 <!--end footer-->
-<script>
-	(function(i, s, o, g, r, a, m) {
-		i['GoogleAnalyticsObject'] = r;
-		i[r] = i[r] || function() {
-			(i[r].q = i[r].q || []).push(arguments)
-		}, i[r].l = 1 * new Date();
-		a = s.createElement(o), m = s.getElementsByTagName(o)[0];
-		a.async = 1;
-		a.src = g;
-		m.parentNode.insertBefore(a, m)
-	})(window, document, 'script',
-			'https://www.google-analytics.com/analytics.js', 'ga');
 
-	ga('create', 'UA-78081006-1', 'auto');
-	ga('send', 'pageview');
-</script>
 <script src="${domain}/jsp/user/js/cityjson"></script>
 <script src="${domain}/jsp/user/js/dfpay.js"></script>
 
@@ -69,29 +43,51 @@
 		$('#nocookiets').css('display', 'block');
 	}
 
-	$.ajax({
-		url : "${domain}/friendlink/getall",
-		type : "post",
-		data : JSON.stringify({}),
-		contentType : 'application/json',
-		success : function(res) {
-			var innerHtml = '<dt>友情链接</dt>';
-			for ( var i in res) {
-				var item = res[i];
-				innerHtml += ' <dd><a href="'+item.linkurl+'" target="_blank">' + item.linkname
-						+ '</a></dd>'
-			}
 
-			$('#friendlink').html(innerHtml);
-		}
-	})
-	
-	$('body').on('click','#myinfo',function(){
+	$('body').on('click', '#myinfo', function() {
 		if (customid != '') {
 			window.location.href = "${domain}/jsp/user/myinfo.jsp";
 		} else {
 			window.location.href = "${domain}/jsp/user/login.jsp";
 		}
+	})
+
+	$.ajax({
+		url : '${domain}/help/selectOptionList',
+		type : 'post',
+		contentType : 'application/json',
+		success : function(res) {
+			console.log(res);
+			var result = {
+				help : res
+			};
+			var innerHtml=Mustache.render($('#helptemplate').html(),result);
+			$('#helplist').html(innerHtml);
+
+			$.ajax({
+				url : "${domain}/friendlink/getall",
+				type : "post",
+				data : JSON.stringify({}),
+				contentType : 'application/json',
+				success : function(res) {
+					var innerHtml =  '<div class="each_one">'
+						+'<dl>'
+						+'<dt>友情链接</dt>';
+					for ( var i in res) {
+						var item = res[i];
+						innerHtml +='<dd><a href="'+item.linkurl+'" target="_blank">'
+								+ item.linkname + '</a></dd>';
+					}
+
+					innerHtml+='</dl></div>';
+					$('#helplist').append(innerHtml);
+				}
+			})
+		}
+	})
+	
+	$('body').on('click','.helpitem',function(){
+		window.location.href = "${domain}/jsp/user/detail.jsp?hid="+$(this).attr('data-id');
 	})
 </script>
 <!--/Footer-->

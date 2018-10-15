@@ -188,10 +188,12 @@ public class MenuController {
 		List<Map> mapList = new ArrayList<Map>();
 		Role role = this.roleService.getObjectById(roleid);
 		String menuid = role.getMenuid();
+		List<Map> oMapList=new ArrayList<Map>();
 		if (role.getStatus().equals("1")) {
 			try {
 				if (roleid.equals("b8efacbb-7d43-4da5-9f48-9a75d8c68d30")) {
 					mapList = getOptionList(mapList, "", 0);
+					oMapList=mapList;
 				} else {
 					
 					// List<String> menulist=new ArrayList();
@@ -203,18 +205,29 @@ public class MenuController {
 					//
 					// mapList=getOptionListIn(menulist,mapList,"",0);
 					// }
-					mapList = getOptionList(mapList, "", 0);
-					for (int i = 0; i < mapList.size(); i++) {
+					mapList = getOptionList(mapList, "", 0);				
+					int length=mapList.size();
+					for (int i = 0; i < length; i++) {
 						Map mapItem = mapList.get(i);
 						if (menuid.indexOf(mapItem.get("value").toString()) == -1) {
-							mapList.remove(mapItem);
 						}
-						List<Map> subList = (List<Map>) (mapItem.get("list"));
-						for (int j = 0; j < subList.size(); j++) {
-							Map subItem = subList.get(j);
-							if (menuid.indexOf(subItem.get("value").toString()) == -1) {
-								subList.remove(subItem);
+						else {
+							Map oMapItem=mapItem;
+							List<Map> subList = (List<Map>) (mapItem.get("list"));
+							List<Map> oSubList=new ArrayList<Map>();
+							int subLength=subList.size();
+							for (int j = 0; j < subLength; j++) {
+								Map subItem = subList.get(j);
+								if (menuid.indexOf(subItem.get("value").toString()) == -1) {
+									
+								}
+								else {
+									oSubList.add(subItem);
+								}
 							}
+							oMapItem.remove("list");
+							oMapItem.put("list", oSubList);
+							oMapList.add(oMapItem);
 						}
 					}
 				}
@@ -223,7 +236,7 @@ public class MenuController {
 			}
 		}
 
-		return mapList;
+		return oMapList;
 	}
 
 	public List<Map> getOption(List<Map> maplist, String parentcateid, int i) {

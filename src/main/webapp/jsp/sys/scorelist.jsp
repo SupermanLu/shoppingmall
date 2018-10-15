@@ -92,7 +92,7 @@
 			fileElementId : 'myfile',
 			dataType : 'json',
 			success : function(data, status) {
-
+				
 				alert("导入成功");
 				$('#myfile').val('');
 				$objectTable.bootstrapTable('refresh');
